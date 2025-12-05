@@ -21,12 +21,27 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+
+      - name: Download spaCy model
+        run: |
           python -m spacy download fr_core_news_sm
 
-      - name: Download ML models
+      - name: Download CamemBERT model from HuggingFace
+        env:
+          HF_HUB_DISABLE_SYMLINKS_WARNING: "1"
         run: |
-          # Si modèles sur HuggingFace ou S3
-          echo "Models already in repo"
+          python -c "
+          from transformers import AutoTokenizer, AutoModelForSequenceClassification
+          import os
+          
+          model_name = 'NandoDP/questions-assemblee-camembert'
+          cache_dir = 'models/camembert_model'
+          
+          print(f'📥 Téléchargement du modèle {model_name}...')
+          tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
+          model = AutoModelForSequenceClassification.from_pretrained(model_name, cache_dir=cache_dir)
+          print('✅ Modèle téléchargé avec succès')
+          "
 
       - name: Run ETL Pipeline
         env:
