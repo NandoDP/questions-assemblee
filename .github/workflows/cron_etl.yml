@@ -46,7 +46,7 @@ jobs:
       - name: Run ETL Pipeline
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          API_TOKEN: ${{ secrets.API_TOKEN }}
+          API_TOKEN: ${{ secrets.API_TOKEN || '' }}
         run: |
           python -m src.pipeline.etl_pipeline
 
