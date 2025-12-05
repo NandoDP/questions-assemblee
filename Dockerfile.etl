@@ -14,7 +14,7 @@ COPY download_model.py .
 COPY models/ ./models/
 
 # Option 1 : Télécharger le modèle au build (si hébergé sur HuggingFace)
-# RUN python download_model.py
+RUN python download_model.py
 
 # Option 2 : Monter le modèle comme volume au runtime
 # Voir docker-compose.yml ou utiliser: docker run -v ./models:/app/models

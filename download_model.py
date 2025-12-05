@@ -31,10 +31,10 @@ def download_model():
     print("⚠️  Cela peut prendre plusieurs minutes (422 MB)")
     
     # Option 1 : Depuis votre propre repo HuggingFace (à configurer)
-    # repo_id = "VOTRE_USERNAME/questions-assemblee-camembert"
+    repo_id = "NandoDP/questions-assemblee-camembert"
     
     # Option 2 : Utiliser le modèle de base CamemBERT
-    repo_id = "camembert-base"
+    # repo_id = "camembert-base"
     
     try:
         # Télécharger tous les fichiers nécessaires
