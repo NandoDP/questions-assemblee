@@ -11,8 +11,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Installer psycopg2-binary et flask-cors dans le virtualenv de Superset
-RUN /app/.venv/bin/pip install --no-cache-dir psycopg2-binary flask-cors
+# Installer psycopg2-binary et flask-cors
+# Vérifier si virtualenv existe, sinon utiliser pip global
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends gcc libpq-dev python3-venv python3-distutils ca-certificates; \
+	if [ -x "/app/.venv/bin/python" ]; then \
+		/app/.venv/bin/python -m ensurepip --upgrade || true; \
+		/app/.venv/bin/python -m pip install --upgrade pip setuptools wheel || true; \
+		/app/.venv/bin/python -m pip install --no-cache-dir psycopg2-binary flask_cors; \
+	else \
+		python -m pip install --no-cache-dir psycopg2-binary flask_cors; \
+	fi; \
+	apt-get remove -y gcc && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copier la configuration personnalisée
 COPY superset_config.py /app/pythonpath/
