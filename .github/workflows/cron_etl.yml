@@ -24,24 +24,11 @@ jobs:
 
       - name: Download spaCy model
         run: |
-          pip install https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.7.0/fr_core_news_sm-3.7.0-py3-none-any.whl
+          python -m spacy download fr_core_news_sm
 
       - name: Download CamemBERT model from HuggingFace
-        env:
-          HF_HUB_DISABLE_SYMLINKS_WARNING: "1"
         run: |
-          python -c "
-          from transformers import AutoTokenizer, AutoModelForSequenceClassification
-          import os
-          
-          model_name = 'NandoDP/questions-assemblee-camembert'
-          cache_dir = 'models/camembert_model'
-          
-          print(f'📥 Téléchargement du modèle {model_name}...')
-          tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
-          model = AutoModelForSequenceClassification.from_pretrained(model_name, cache_dir=cache_dir)
-          print('✅ Modèle téléchargé avec succès')
-          "
+          python download_model.py
 
       - name: Run ETL Pipeline
         env:
