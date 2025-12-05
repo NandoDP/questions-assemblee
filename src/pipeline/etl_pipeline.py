@@ -55,17 +55,17 @@ class ETLPipeline:
             # Initialisation
             await self.db_loader.initialize()
             
-            # # Extraction
-            # deputes_data = await self._extract_deputes()
-            # if not deputes_data:
-            #     logger.info("Aucun député à ajouter")
-            #     return                        
-            # # Chargement
-            # await self._load_deputes(deputes_data)
-            # logger.info(f"Pipeline terminé - {len(deputes_data)} députés ajoutés")
-
+            # 1. Charger les députés d'abord (requis pour les foreign keys)
+            logger.info("Étape 1: Chargement des députés")
+            deputes_data = await self._extract_deputes()
+            if deputes_data:
+                await self._load_deputes(deputes_data)
+                logger.info(f"✅ {len(deputes_data)} députés chargés")
+            else:
+                logger.info("Aucun nouveau député à charger")
             
-            # Extraction
+            # 2. Charger les questions
+            logger.info("Étape 2: Extraction des questions")
             questions_data = await self._extract_data(date_debut, date_fin, incremental)
             
             if not questions_data:
