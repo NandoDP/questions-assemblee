@@ -1,0 +1,100 @@
+# Docker Compose pour développement local
+# Usage: docker-compose up -d
+
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: questions-postgres
+    environment:
+      POSTGRES_DB: questions_assemblee
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db-init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Apache Superset (Dashboard BI)
+  superset:
+    build:
+      context: .
+      dockerfile: Dockerfile.superset
+    container_name: questions-superset
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/questions_assemblee
+      SUPERSET_SECRET_KEY: dev-secret-key-change-in-production
+      SUPERSET_JWT_SECRET: dev-jwt-secret-change-in-production
+      SUPERSET_ADMIN_PASSWORD: admin123
+      PORT: 8088
+    ports:
+      - "8088:8088"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    volumes:
+      - superset_data:/app/superset_home
+
+  # Flask App (Dashboard Public)
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile.flask
+    container_name: questions-flask
+    environment:
+      SUPERSET_URL: http://superset:8088
+      DASHBOARD_ID: "1"
+      FLASK_SECRET_KEY: dev-flask-secret
+      PORT: 5000
+      FLASK_ENV: development
+    ports:
+      - "5000:5000"
+    depends_on:
+      - superset
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # Service ETL (optionnel, pour tester localement)
+  # Décommentez pour exécuter l'ETL localement
+  # etl:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.etl
+  #   container_name: questions-etl
+  #   environment:
+  #     DATABASE_URL: postgresql://postgres:postgres@postgres:5432/questions_assemblee
+  #     API_TOKEN: ${API_TOKEN}
+  #     LOG_LEVEL: INFO
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./models:/app/models
+  #     - ./src:/app/src
+
+volumes:
+  postgres_data:
+    driver: local
+  superset_data:
+    driver: local
+
+networks:
+  default:
+    name: questions-network

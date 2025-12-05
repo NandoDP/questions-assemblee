@@ -1,27 +1,44 @@
 #!/bin/bash
 set -e
 
-echo "=== Initialisation de Superset ==="
+echo "=== Initialisation de Superset sur Render ==="
 
-# Attendre que PostgreSQL soit pr�t
-# echo "Attente de PostgreSQL..."
-# while ! nc -z postgres 5432; do
-#   sleep 1
-# done
-# echo "PostgreSQL est pr�t!"
+# Vérifier que DATABASE_URL est défini
+if [ -z "$DATABASE_URL" ]; then
+    echo "❌ Erreur: DATABASE_URL non défini"
+    exit 1
+fi
 
-# Initialiser la base de donn�es Superset
-echo "Initialisation de la base de donn�es Superset..."
+echo "✅ DATABASE_URL configuré"
+
+# Initialiser la base de données Superset
+echo "📦 Initialisation de la base de données Superset..."
 superset db upgrade
 
-# Cr�er un utilisateur admin
-echo "Cr�ation de l'utilisateur admin..."
-superset fab create-admin --username admin --firstname Admin --lastname User --email admin@example.com --password admin
+# Créer un utilisateur admin (seulement si pas déjà créé)
+echo "👤 Création de l'utilisateur admin..."
+superset fab create-admin \
+    --username admin \
+    --firstname Admin \
+    --lastname User \
+    --email admin@superset.com \
+    --password ${SUPERSET_ADMIN_PASSWORD:-admin123} || echo "⚠️ Admin existe déjà"
 
-# echo "Chargement des exemples..."
-# superset load_examples
-
-echo "Initialiser"
+# Créer un utilisateur public en lecture seule
+echo "👥 Configuration des rôles..."
 superset init
 
-echo "=== Initialisation termin�e ==="
+# Importer les rôles personnalisés (optionnel)
+# superset import_roles -p /app/roles.json
+
+echo "✅ Initialisation terminée"
+
+# Démarrer Superset
+echo "🚀 Démarrage de Superset..."
+gunicorn \
+    --bind 0.0.0.0:${PORT:-8088} \
+    --workers ${SUPERSET_WORKERS:-4} \
+    --timeout 120 \
+    --limit-request-line 0 \
+    --limit-request-field_size 0 \
+    "superset.app:create_app()"

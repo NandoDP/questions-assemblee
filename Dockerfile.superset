@@ -1,19 +1,38 @@
 ARG SUPERSET_VERSION=latest
-FROM apache/superset:${SUPERSET_VERSION} AS base
+FROM apache/superset:${SUPERSET_VERSION}
 
-# Install psycopg2 into Superset virtualenv in a safe way.
 USER root
-RUN set -eux; \
-	apt-get update; \
-	apt-get install -y --no-install-recommends gcc libpq-dev python3-venv python3-distutils ca-certificates; \
-	if [ -x "/app/.venv/bin/python" ]; then \
-		/app/.venv/bin/python -m ensurepip --upgrade || true; \
-		/app/.venv/bin/python -m pip install --upgrade pip setuptools wheel || true; \
-		/app/.venv/bin/python -m pip install --no-cache-dir psycopg2-binary flask_cors; \
-	else \
-		python -m pip install --no-cache-dir psycopg2-binary flask_cors; \
-	fi; \
-	apt-get remove -y gcc && apt-get autoremove -y && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Drop back to the non-root user provided by the image
+# Installer les dépendances nécessaires
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Installer psycopg2 et Flask-CORS pour CORS et PostgreSQL
+RUN pip install --no-cache-dir psycopg2-binary flask-cors
+
+# Copier la configuration personnalisée
+COPY superset_config.py /app/pythonpath/
+COPY init-superset.sh /app/docker/
+
+# Rendre le script exécutable
+RUN chmod +x /app/docker/init-superset.sh
+
+# Créer les répertoires nécessaires
+RUN mkdir -p /app/superset_home
+
+# Changer les permissions
+RUN chown -R superset:superset /app/superset_home
+
 USER superset
+
+# Variables d'environnement par défaut
+ENV SUPERSET_CONFIG_PATH=/app/pythonpath/superset_config.py
+
+# Exposer le port
+EXPOSE 8088
+
+# Script d'initialisation
+CMD ["/app/docker/init-superset.sh"]

@@ -1,0 +1,52 @@
+# Render Blueprint pour Questions Parlementaires
+# Documentation: https://render.com/docs/blueprint-spec
+
+services:
+  # 1. Base de données PostgreSQL
+  - type: pserv
+    name: questions-assemblee-db
+    env: python
+    plan: free
+    region: frankfurt  # ou oregon selon votre préférence
+    databases:
+      - name: questions-assemblee
+        databaseName: questions_assemblee
+        user: questions_user
+        # Le mot de passe sera généré automatiquement par Render
+
+  # 2. Apache Superset (Dashboard BI)
+  - type: web
+    name: questions-assemblee-superset
+    env: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile.superset
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: questions-assemblee-db
+          property: connectionString
+      - key: SUPERSET_SECRET_KEY
+        generateValue: true
+      - key: SUPERSET_JWT_SECRET
+        generateValue: true
+      - key: REDIS_URL
+        value: redis://red-example:6379/0  # Optionnel: ajouter Redis si nécessaire
+    healthCheckPath: /health
+    
+  # 3. Flask App (Dashboard public)
+  - type: web
+    name: questions-assemblee-dashboard
+    env: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile.flask
+    envVars:
+      - key: SUPERSET_URL
+        value: https://questions-assemblee-superset.onrender.com
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+    healthCheckPath: /
+
+# Note: Le pipeline ETL s'exécute via GitHub Actions, pas sur Render
+# Pour exécuter l'ETL manuellement, créer un Background Worker séparé

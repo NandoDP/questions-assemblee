@@ -1,93 +1,79 @@
-# import os
-# # from celery import Celery
+import os
 
+# Configuration de la base de données
+SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/superset')
 
-# SUPERSET_JWT_SECRET = "hsdu&72hds88HH73jsKSkdhs&88sjsdh3PLUSLONGUEencore2024"
+# Si Render utilise postgres://, le convertir en postgresql://
+if SQLALCHEMY_DATABASE_URI.startswith('postgres://'):
+    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace('postgres://', 'postgresql://', 1)
 
-# # Configuration de la base de données
-# # SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://superset:superset@postgres:5432/superset')
+# Configuration de sécurité
+SECRET_KEY = os.getenv('SUPERSET_SECRET_KEY', 'changeme-secret-key-production')
+WTF_CSRF_ENABLED = True
+WTF_CSRF_TIME_LIMIT = None
 
-# # Configuration Redis
-# REDIS_URL = os.getenv('REDIS_URL', 'redis://redis:6379/0')
+# Configuration JWT pour dashboard public
+SUPERSET_JWT_SECRET = os.getenv('SUPERSET_JWT_SECRET', 'changeme-jwt-secret')
 
-# # Configuration Celery
-# class CeleryConfig:
-#     CELERY_IMPORTS = ('superset.sql_lab', 'superset.tasks')
-#     CELERY_ANNOTATIONS = {'tasks.add': {'rate_limit': '10/s'}}
-#     BROKER_URL = REDIS_URL
-#     CELERY_RESULT_BACKEND = REDIS_URL
-
-# CELERY_CONFIG = CeleryConfig
-
-# # Configuration de sécurité
-# SECRET_KEY = os.getenv('SUPERSET_SECRET_KEY', 'your-secret-key-here')
-# WTF_CSRF_ENABLED = True
-# WTF_CSRF_TIME_LIMIT = None
-
-# # Configuration des utilisateurs
-# AUTH_TYPE = 1  # Database authentication
-# AUTH_ROLE_ADMIN = 'Admin'
-# AUTH_ROLE_PUBLIC = 'Public'
-
-# # Configuration des permissions
-# SUPERSET_WEBSERVER_DOMAINS = None
-# ENABLE_PROXY_FIX = True
-
-# # Configuration des uploads
-# UPLOAD_FOLDER = '/app/superset_home/uploads'
-# IMG_UPLOAD_FOLDER = '/app/superset_home/uploads'
-# IMG_UPLOAD_URL = '/uploads/'
-
-# # Configuration des features
-# FEATURE_FLAGS = {
-#     'ENABLE_TEMPLATE_PROCESSING': True,
-#     'DASHBOARD_NATIVE_FILTERS': True,
-#     'DASHBOARD_CROSS_FILTERS': True,
-#     'DASHBOARD_FILTERS_EXPERIMENTAL': True,
-#     'ENABLE_EXPLORE_JSON_CSRF_PROTECTION': False,
-#     'ENABLE_EXPLORE_DRAG_AND_DROP': True,
-#     'GLOBAL_ASYNC_QUERIES': True,
-# }
-
-# # Configuration des visualisations
-# DEFAULT_FEATURE_FLAGS = {
-#     'CLIENT_CACHE': False,
-#     'ENABLE_EXPLORE_JSON_CSRF_PROTECTION': False,
-#     'PRESTO_EXPAND_DATA': False,
-# }
-
-# # Configuration CORS pour l'intégration iframe
-# ENABLE_CORS = True
-# CORS_OPTIONS = {
-#     'supports_credentials': True,
-#     'allow_headers': ['*'],
-#     'resources': ['*'],
-#     'origins': ['*']
-# }
-
-# # Configuration des graphiques
-# SUPERSET_CHART_PERMISSIONS = {
-#     'can_read': ['Admin', 'Alpha', 'Gamma'],
-#     'can_write': ['Admin', 'Alpha'],
-# }
+# Configuration des rôles
+AUTH_TYPE = 1  # Database authentication
+AUTH_ROLE_ADMIN = 'Admin'
+AUTH_ROLE_PUBLIC = 'Public'
 
 # Donner le rôle Gamma au rôle Public (lecture seule)
 PUBLIC_ROLE_LIKE = "Gamma"
 
-# Spécifie que les utilisateurs non connectés sont associés au rôle Public
-AUTH_ROLE_PUBLIC = "Public"
+# Autoriser les utilisateurs non authentifiés avec le rôle Public
+AUTH_USER_REGISTRATION = False
+AUTH_USER_REGISTRATION_ROLE = "Public"
 
-SUPERSET_DATABASE_URI = "postgresql+psycopg2://airflow:airflow@postgres:5432/$questions"
+# Configuration CORS pour l'intégration iframe
+ENABLE_CORS = True
+CORS_OPTIONS = {
+    'supports_credentials': True,
+    'allow_headers': ['*'],
+    'resources': ['*'],
+    'origins': ['*']
+}
 
 # Autoriser l'affichage en iframe
-ENABLE_X_FRAME_OPTIONS = False
-
-# Pour les versions récentes de Superset, il faut aussi ajuster la CSP :
-TALISMAN_ENABLED = False  # Désactive Flask-Talisman qui force la sécurité stricte
-
-SUPERSET_JWT_SECRET = "hsdu&72hds88HH73jsKSkdhs&88sjsdh3PLUSLONGUEencore2024"
-
-FEATURE_FLAGS = {
-    "ALLOW_UPLOAD_CSV": True,
-    # ... autres flags éventuels ...
+HTTP_HEADERS = {
+    'X-Frame-Options': 'ALLOWALL'
 }
+ENABLE_PROXY_FIX = True
+
+# Désactiver Talisman pour permettre l'iframe
+TALISMAN_ENABLED = False
+
+# Configuration des features
+FEATURE_FLAGS = {
+    'ENABLE_TEMPLATE_PROCESSING': True,
+    'DASHBOARD_NATIVE_FILTERS': True,
+    'DASHBOARD_CROSS_FILTERS': True,
+    'DASHBOARD_FILTERS_EXPERIMENTAL': False,
+    'ENABLE_EXPLORE_JSON_CSRF_PROTECTION': False,
+    'ENABLE_EXPLORE_DRAG_AND_DROP': True,
+    'GLOBAL_ASYNC_QUERIES': False,  # Redis requis si True
+    'EMBEDDABLE_CHARTS': True,
+    'DASHBOARD_RBAC': True,
+}
+
+# Configuration des permissions pour le rôle Public
+# Désactiver l'accès aux données brutes pour les utilisateurs publics
+PREVENT_UNSAFE_DEFAULT_URLS_ON_DATASET = True
+
+# Configuration de cache (optionnel, nécessite Redis)
+CACHE_CONFIG = {
+    'CACHE_TYPE': 'simple',  # Utiliser 'redis' si vous ajoutez Redis
+}
+
+# Configuration des logs
+ENABLE_TIME_ROTATE = True
+LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
+
+# Configuration du webserver
+SUPERSET_WEBSERVER_PORT = int(os.getenv('PORT', 8088))
+SUPERSET_WEBSERVER_TIMEOUT = 120
+
+# Désactiver les exemples au démarrage
+ENABLE_FLASK_COMPRESS = True
