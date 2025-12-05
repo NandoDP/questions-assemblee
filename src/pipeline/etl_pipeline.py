@@ -183,38 +183,40 @@ class ETLPipeline:
         
         logger.info("Chargement terminé")
 
-    # def extraire_phrase_ministre_avancee(self, texte: str) -> str:
-    #     """
-    #     Version avancée qui gère mieux les cas complexes et nettoie le résultat.
+    def extraire_phrase_ministre_avancee(self, texte: str) -> str:
+        """
+        Version avancée qui gère mieux les cas complexes et nettoie le résultat.
         
-    #     Args:
-    #         texte (str): Le texte à analyser
+        Args:
+            texte (str): Le texte à analyser
             
-    #     Returns:
-    #         Optional[str]: La première phrase trouvée et nettoyée, ou "Non trouvé" si aucune phrase ne correspond
-    #     """
-    #     if not texte:
-    #         return "Non trouvé"
+        Returns:
+            Optional[str]: La première phrase trouvée et nettoyée, ou "Non trouvé" si aucune phrase ne correspond
+        """
+        if not texte:
+            return "Non trouvé"
         
-    #     # Nettoyage du texte (suppression des retours à la ligne excessifs)
-    #     texte_nettoye = re.sub(r'\s+', ' ', texte.strip())
+        import re
         
-    #     # Pattern plus robuste qui gère les majuscules/minuscules et les espaces
-    #     # Recherche une phrase complète commençant par un mot avec 'minist'
-    #     pattern = r'(?i)\b(minist[a-zA-ZàâäéèêëîïôöùûüÿçÀÂÄÉÈÊËÎÏÔÖÙÛÜŸÇ]*[^.]*?)\.'
+        # Nettoyage du texte (suppression des retours à la ligne excessifs)
+        texte_nettoye = re.sub(r'\s+', ' ', texte.strip())
         
-    #     match = re.search(pattern, texte_nettoye)
+        # Pattern plus robuste qui gère les majuscules/minuscules et les espaces
+        # Recherche une phrase complète commençant par un mot avec 'minist'
+        pattern = r'(?i)\b(minist[a-zA-ZàâäéèêëîïôöùûüÿçÀÂÄÉÈÊËÎÏÔÖÙÛÜŸÇ]*[^.]*?)\.'
         
-    #     if match:
-    #         phrase = match.group(1).strip()
+        match = re.search(pattern, texte_nettoye)
+        
+        if match:
+            phrase = match.group(1).strip()
             
-    #         # Nettoyage supplémentaire
-    #         phrase = re.sub(r'\s+', ' ', phrase)  # Normalisation des espaces
-    #         phrase = phrase.capitalize()  # Première lettre en majuscule
+            # Nettoyage supplémentaire
+            phrase = re.sub(r'\s+', ' ', phrase)  # Normalisation des espaces
+            phrase = phrase.capitalize()  # Première lettre en majuscule
             
-    #         return phrase + '.'
+            return phrase + '.'
         
-    #     return "Non trouvé"
+        return "Non trouvé"
 
     async def _extract_deputes(self) -> List[DeputeIn]:
         """Phase d'extraction"""
