@@ -37,11 +37,19 @@ echo "✅ Initialisation terminée"
 echo "🚀 Démarrage de Superset sur le port ${PORT:-8088}..."
 echo "📡 Bind address: 0.0.0.0:${PORT:-8088}"
 
-# Démarrer Gunicorn avec logs verbeux
+# Démarrer Gunicorn avec configuration optimisée pour Render Free tier
+# - 2 workers au lieu de 4 (plus rapide à démarrer)
+# - preload pour accélérer le démarrage
+# - timeout augmenté pour le premier démarrage
 gunicorn \
     --bind 0.0.0.0:${PORT:-8088} \
-    --workers ${SUPERSET_WORKERS:-4} \
-    --timeout 120 \
+    --workers 2 \
+    --worker-class sync \
+    --threads 2 \
+    --timeout 300 \
+    --graceful-timeout 120 \
+    --keep-alive 5 \
+    --preload \
     --limit-request-line 0 \
     --limit-request-field_size 0 \
     --access-logfile - \
