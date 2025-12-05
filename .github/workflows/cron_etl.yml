@@ -24,7 +24,7 @@ jobs:
 
       - name: Download spaCy model
         run: |
-          python -m spacy download fr_core_news_sm
+          pip install https://github.com/explosion/spacy-models/releases/download/fr_core_news_sm-3.7.0/fr_core_news_sm-3.7.0-py3-none-any.whl
 
       - name: Download CamemBERT model from HuggingFace
         run: |
