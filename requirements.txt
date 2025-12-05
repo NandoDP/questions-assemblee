@@ -1,0 +1,19 @@
+python-dotenv==1.0.0
+aiohttp
+asyncpg
+pydantic
+pydantic_settings
+numpy==1.24.4
+spacy==3.7.4
+rapidfuzz
+torch
+transformers
+sentencepiece
+huggingface_hub[hf_xet]
+beautifulsoup4==4.12.2
+
+psycopg2-binary
+sqlalchemy
+alembic  # pour migrations DB
+flask
+gunicorn  # pour production

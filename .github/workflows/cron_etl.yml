@@ -1,0 +1,42 @@
+name: Scheduled ETL Pipeline
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # 2h UTC chaque jour
+  workflow_dispatch:      # Trigger manuel
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          python -m spacy download fr_core_news_sm
+
+      - name: Download ML models
+        run: |
+          # Si modèles sur HuggingFace ou S3
+          echo "Models already in repo"
+
+      - name: Run ETL Pipeline
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+        run: |
+          python -m src.pipeline.etl_pipeline
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "ETL failed, send notification"
+          # Intégrer Slack/Discord webhook

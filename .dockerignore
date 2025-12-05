@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+env/
+dist/
+build/
+.DS_Store
+.env
+.env.*
+.pytest_cache
+*.egg-info/
+node_modules/
+/.cache
+docker-compose*.yml
+*.log
+pgdata/
+
+# Ne pas copier les gros fichiers de modèles (> 100 MB)
+models/camembert_model/model.safetensors
+models/results/
+results/
+*.safetensors
+.venv/
+/.vscode/

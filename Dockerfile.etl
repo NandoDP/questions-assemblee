@@ -1,0 +1,22 @@
+FROM python:3.10-slim
+WORKDIR /app
+
+# Installation des dépendances
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m spacy download fr_core_news_sm
+
+# Copie du code source
+COPY src/ ./src/
+COPY download_model.py .
+
+# Copie des modèles (sauf model.safetensors qui est trop volumineux)
+COPY models/ ./models/
+
+# Option 1 : Télécharger le modèle au build (si hébergé sur HuggingFace)
+# RUN python download_model.py
+
+# Option 2 : Monter le modèle comme volume au runtime
+# Voir docker-compose.yml ou utiliser: docker run -v ./models:/app/models
+
+CMD ["python", "src/pipeline/etl_pipeline.py"]
