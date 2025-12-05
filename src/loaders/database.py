@@ -15,15 +15,26 @@ class DatabaseLoader:
     
     async def initialize(self):
         """Initialise le pool de connexions"""
-        self.pool = await asyncpg.create_pool(
-            host=settings.POSTGRES_HOST,
-            port=settings.POSTGRES_PORT,
-            user=settings.POSTGRES_USER,
-            password=settings.POSTGRES_PASSWORD,
-            database=settings.POSTGRES_DB,
-            min_size=5,
-            max_size=20
-        )
+        # Si DATABASE_URL est fourni (Render/Production), l'utiliser
+        if settings.DATABASE_URL:
+            logger.info("Connexion via DATABASE_URL")
+            self.pool = await asyncpg.create_pool(
+                dsn=settings.DATABASE_URL,
+                min_size=5,
+                max_size=20
+            )
+        else:
+            # Sinon, utiliser les variables individuelles (local)
+            logger.info(f"Connexion via host={settings.POSTGRES_HOST}")
+            self.pool = await asyncpg.create_pool(
+                host=settings.POSTGRES_HOST,
+                port=settings.POSTGRES_PORT,
+                user=settings.POSTGRES_USER,
+                password=settings.POSTGRES_PASSWORD,
+                database=settings.POSTGRES_DB,
+                min_size=5,
+                max_size=20
+            )
     
     async def close(self):
         """Ferme le pool de connexions"""
