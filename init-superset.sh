@@ -34,11 +34,17 @@ superset init
 echo "✅ Initialisation terminée"
 
 # Démarrer Superset
-echo "🚀 Démarrage de Superset..."
+echo "🚀 Démarrage de Superset sur le port ${PORT:-8088}..."
+echo "📡 Bind address: 0.0.0.0:${PORT:-8088}"
+
+# Démarrer Gunicorn avec logs verbeux
 gunicorn \
     --bind 0.0.0.0:${PORT:-8088} \
     --workers ${SUPERSET_WORKERS:-4} \
     --timeout 120 \
     --limit-request-line 0 \
     --limit-request-field_size 0 \
+    --access-logfile - \
+    --error-logfile - \
+    --log-level info \
     "superset.app:create_app()"
