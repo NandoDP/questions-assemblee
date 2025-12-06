@@ -28,9 +28,11 @@ RUN set -eux; \
 # Copier la configuration personnalisée
 COPY superset_config.py /app/pythonpath/
 COPY init-superset.sh /app/docker/
+COPY superset_readonly_public.sh /app/docker/
 
 # Rendre le script exécutable
 RUN chmod +x /app/docker/init-superset.sh
+RUN chmod +x /app/docker/superset_readonly_public.sh
 
 # Créer les répertoires nécessaires
 RUN mkdir -p /app/superset_home
@@ -48,3 +50,5 @@ EXPOSE 8088
 
 # Script d'initialisation
 CMD ["/app/docker/init-superset.sh"]
+# Pour appliquer la config lecture seule après init, modifiez init-superset.sh :
+# Ajoutez à la fin : bash /app/docker/superset_readonly_public.sh

@@ -56,3 +56,6 @@ gunicorn \
     --error-logfile - \
     --log-level info \
     "superset.app:create_app()"
+
+
+bash /app/docker/superset_readonly_public.sh
