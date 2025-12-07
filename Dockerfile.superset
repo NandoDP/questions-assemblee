@@ -50,5 +50,3 @@ EXPOSE 8088
 
 # Script d'initialisation
 CMD ["/app/docker/init-superset.sh"]
-# Pour appliquer la config lecture seule après init, modifiez init-superset.sh :
-# Ajoutez à la fin : bash /app/docker/superset_readonly_public.sh

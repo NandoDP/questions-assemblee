@@ -3,3 +3,9 @@
 
 # Modèles ML trop volumineux pour GitHub (> 100 MB)
 models/camembert_model/model.safetensors
+SOLUTION_MODELE.md
+SECRETS_SETUP.md
+QUICKSTART.md
+MODEL_MANAGEMENT.md
+CHECKLIST.md
+DEPLOY.md

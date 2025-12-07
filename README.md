@@ -12,7 +12,7 @@
 
 ## 🎯 Objectif
 
-Ce projet collecte, analyse et visualise automatiquement les questions parlementaires de l'Assemblée Nationale française. Il utilise un modèle de Machine Learning (CamemBERT) pour classifier les questions par thématique et génère des insights via un dashboard Apache Superset.
+Ce projet collecte, analyse et visualise automatiquement les questions parlementaires de l'Assemblée Nationale Sénégalaise (XIVe législature). Il utilise un modèle de Machine Learning (CamemBERT) pour classifier les questions par thématique et génère des insights via un dashboard Apache Superset.
 
 **Cas d'usage** :
 - 📈 Suivi de l'activité parlementaire en temps réel
@@ -64,16 +64,16 @@ Ce projet collecte, analyse et visualise automatiquement les questions parlement
 ## 📈 Résultats
 
 **Données collectées** :
-- ✅ 10 000+ questions parlementaires analysées
-- ✅ 577 députés suivis
-- ✅ 15+ ministères couverts
-- ✅ Classification en 12 thématiques principales
+- ✅ 250+ questions parlementaires analysées
+- ✅ 165 députés suivis
+- ✅ 26 ministères couverts
+- ✅ Classification en 12+ thématiques principales
 
 **Métriques clés** :
-- 📊 Délai moyen de réponse : 45 jours
-- 📈 Taux de réponse : 75%
-- 🏆 Top 3 thématiques : Santé, Éducation, Économie
-- 🗺️ Couverture géographique : 101 départements
+- 📊 Nombre de députés actifs : 33
+- 📈 Taux de réponse : < 2%
+- 🏆 Top 3 thématiques : Santé, Éducation, Culture
+- 🗺️ Couverture géographique : 13/14 régions
 
 ---
 
@@ -81,7 +81,7 @@ Ce projet collecte, analyse et visualise automatiquement les questions parlement
 
 ### **🌐 Dashboard Public**
 
-👉 **[Voir le dashboard en ligne](https://questions-assemblee-dashboard.onrender.com)** (à mettre à jour après déploiement)
+👉 **[Voir le dashboard en ligne](https://questions-assemblee-dashboard.onrender.com)**
 
 Le dashboard est accessible publiquement en **lecture seule**. Aucun téléchargement de données brutes n'est possible pour les visiteurs.
 
@@ -99,16 +99,6 @@ docker-compose up -d
 open http://localhost:5000  # Dashboard public
 open http://localhost:8088  # Superset admin (admin/admin123)
 ```
-
-📖 **Guide détaillé** : [QUICKSTART.md](QUICKSTART.md)
-
-### **☁️ Déploiement Production (Render)**
-
-1. Créer un compte sur [Render.com](https://render.com)
-2. Suivre le guide complet : [DEPLOY.md](DEPLOY.md)
-3. Les services seront automatiquement déployés via `render.yaml`
-
----
 
 ## 🛠️ Stack Technique
 
@@ -142,7 +132,29 @@ open http://localhost:8088  # Superset admin (admin/admin123)
 
 ### **Exemples de dashboards disponibles** :
 
-1. **📊 Questions par Ministère** (Bar Chart)
+La plateforme de visualisation offre plusieurs types de graphiques et tableaux de bord pour exploiter les données collectées :
+
+#### **Métriques de performance parlementaire**
+
+* **Indicateurs KPI** : Affichage des métriques clés (nombre total de questions, taux de réponse global, nombre de députés actifs) sous forme de cartes numériques pour un suivi rapide des performances.  
+* **Évolution temporelle** : Graphiques en barres et courbes montrant l'évolution mensuelle du nombre de questions et de réponses, permettant d'identifier les périodes de forte activité parlementaire.
+
+#### **Analyses thématiques**
+
+* **Répartition par secteur** : Graphiques en secteurs (camembert) illustrant la distribution des questions par domaine (santé, éducation, économie, etc.), révélant les préoccupations prioritaires des députés.  
+* **Nuage de mots-clés** : Visualisation des termes les plus fréquents dans les questions, facilitant l'identification des sujets récurrents et des tendances émergentes.
+
+#### **Suivi de l'activité des députés**
+
+* **Classement des plus actifs** : Tableaux de bord avec ranking des députés par nombre de questions posées et taux de réponse, permettant d'évaluer l'engagement parlementaire.  
+* **Analyse par groupe parlementaire** : Graphiques comparatifs de l'activité par parti politique ou coalition.
+
+#### **Dimension géographique**
+
+* **Cartographie interactive** : Cartes choroplèthes du Sénégal montrant la répartition géographique des questions par région ou département, identifiant les zones les plus représentées dans les débats parlementaires.  
+* **Heatmaps régionales** : Visualisation de l'intensité des préoccupations par zone géographique.
+
+<!-- 1. **📊 Questions par Ministère** (Bar Chart)
    - Top 10 ministères par volume de questions
    - Évolution temporelle par ministère
 
@@ -165,7 +177,7 @@ open http://localhost:8088  # Superset admin (admin/admin123)
 
 6. **📈 Timeline Interactive** (Timeline)
    - Évolution quotidienne/mensuelle
-   - Filtres par parti, région, thématique
+   - Filtres par parti, région, thématique -->
 
 ---
 
@@ -173,11 +185,11 @@ open http://localhost:8088  # Superset admin (admin/admin123)
 
 ### **✅ Déjà Implémenté**
 
-- [x] Extraction automatique via API Assemblée Nationale
+- [x] Extraction automatique via API 👉 **[Vie Publique](https://www.vie-publique.sn/assemblee-nationale/questions)**
 - [x] Pipeline ETL asynchrone optimisé
 - [x] Classification ML avec CamemBERT fine-tuné
 - [x] Extraction des entités nommées (ministères, lieux, dates)
-- [x] Analyse de sentiment et score d'urgence
+- [-] Analyse de sentiment et score d'urgence
 - [x] Base de données PostgreSQL avec vues optimisées
 - [x] Dashboard Superset avec charts interactifs
 - [x] Interface publique Flask (lecture seule)
@@ -221,12 +233,10 @@ question-assemblee/
 ├── render.yaml              # Déploiement Render
 ├── db-init.sql              # Schéma PostgreSQL
 ├── requirements.txt         # Dépendances Python
-├── DEPLOY.md                # Guide de déploiement
-├── QUICKSTART.md            # Démarrage rapide
 └── README.md                # Ce fichier
 ```
 
----
+<!-- ---
 
 ## 🤝 Contribution
 
@@ -242,7 +252,7 @@ Les contributions sont les bienvenues !
 
 ## 📝 License
 
-Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails.
+Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails. -->
 
 ---
 
@@ -256,11 +266,8 @@ Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails.
 
 ## 🙏 Remerciements
 
-- **Assemblée Nationale** - API publique des questions parlementaires
-- **HuggingFace** - Hébergement des modèles ML
-- **Apache Superset** - Plateforme BI open-source
-- **Render** - Hébergement gratuit pour projets open-source
-
+- **[Vie Publique](https://www.vie-publique.sn)** - Plateforme citoyenne du sénégal
+<!-- 
 ---
 
 ## 📚 Documentation Complémentaire
@@ -268,7 +275,7 @@ Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails.
 - [QUICKSTART.md](QUICKSTART.md) - Démarrage rapide en local
 - [DEPLOY.md](DEPLOY.md) - Guide de déploiement complet
 - [MODEL_MANAGEMENT.md](MODEL_MANAGEMENT.md) - Gestion du modèle ML
-- [models/camembert_model/README.md](models/camembert_model/README.md) - Téléchargement du modèle
+- [models/camembert_model/README.md](models/camembert_model/README.md) - Téléchargement du modèle -->
 
 ---
 
