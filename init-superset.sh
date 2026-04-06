@@ -28,8 +28,9 @@ superset fab create-admin \
 echo "👥 Configuration des rôles..."
 superset init
 
-# Importer les rôles personnalisés (optionnel)
-# superset import_roles -p /app/roles.json
+# Configurer le rôle Public en lecture seule (AVANT de démarrer Gunicorn)
+echo "🔒 Configuration du rôle Public en lecture seule..."
+bash /app/docker/superset_readonly_public.sh || echo "⚠️ Échec config Public (non bloquant)"
 
 echo "✅ Initialisation terminée"
 
@@ -38,14 +39,14 @@ echo "🚀 Démarrage de Superset sur le port ${PORT:-8088}..."
 echo "📡 Bind address: 0.0.0.0:${PORT:-8088}"
 
 # Démarrer Gunicorn avec configuration optimisée pour Render Free tier
-# - 2 workers au lieu de 4 (plus rapide à démarrer)
-# - preload pour accélérer le démarrage
+# - 1 worker (plus rapide à démarrer, suffisant pour Free tier)
+# - preload pour charger l'app avant fork
 # - timeout augmenté pour le premier démarrage
-gunicorn \
+exec gunicorn \
     --bind 0.0.0.0:${PORT:-8088} \
-    --workers 2 \
-    --worker-class sync \
-    --threads 2 \
+    --workers 1 \
+    --worker-class gthread \
+    --threads 4 \
     --timeout 300 \
     --graceful-timeout 120 \
     --keep-alive 5 \
@@ -56,6 +57,3 @@ gunicorn \
     --error-logfile - \
     --log-level info \
     "superset.app:create_app()"
-
-
-bash /app/docker/superset_readonly_public.sh
