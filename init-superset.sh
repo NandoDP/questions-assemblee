@@ -28,10 +28,6 @@ superset fab create-admin \
 echo "👥 Configuration des rôles..."
 superset init
 
-# Configurer le rôle Public en lecture seule (AVANT de démarrer Gunicorn)
-echo "🔒 Configuration du rôle Public en lecture seule..."
-bash /app/docker/superset_readonly_public.sh || echo "⚠️ Échec config Public (non bloquant)"
-
 echo "✅ Initialisation terminée"
 
 # Démarrer Superset
