@@ -29,10 +29,12 @@ RUN set -eux; \
 COPY superset_config.py /app/pythonpath/
 COPY init-superset.sh /app/docker/
 COPY superset_readonly_public.sh /app/docker/
+COPY configure_public_role.py /app/docker/
 
-# Rendre le script exécutable
+# Rendre les scripts exécutables
 RUN chmod +x /app/docker/init-superset.sh
 RUN chmod +x /app/docker/superset_readonly_public.sh
+RUN chmod +x /app/docker/configure_public_role.py
 
 # Créer les répertoires nécessaires
 RUN mkdir -p /app/superset_home
