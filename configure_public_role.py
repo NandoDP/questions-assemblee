@@ -11,11 +11,13 @@ import os
 os.environ.setdefault('SUPERSET_CONFIG_PATH', '/app/pythonpath/superset_config.py')
 
 try:
-    from superset import app, security_manager
+    from superset.app import create_app
+    from superset import security_manager
     from superset.extensions import db
     
     print("🔒 Configuration du rôle Public en lecture seule (Python)...")
     
+    app = create_app()
     with app.app_context():
         # Récupérer le rôle Public
         public_role = security_manager.find_role("Public")
