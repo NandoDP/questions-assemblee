@@ -28,6 +28,10 @@ superset fab create-admin \
 echo "👥 Configuration des rôles..."
 superset init
 
+# Configurer le rôle Public en lecture seule (script Python rapide ~5s)
+echo "🔒 Configuration du rôle Public en lecture seule..."
+python /app/docker/configure_public_role.py || echo "⚠️ Échec config Public (non bloquant)"
+
 echo "✅ Initialisation terminée"
 
 # Démarrer Superset
