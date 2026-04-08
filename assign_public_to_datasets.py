@@ -36,12 +36,32 @@ try:
         
         updated = 0
         for dataset in datasets:
-            if public_role not in dataset.roles:
-                dataset.roles.append(public_role)
+            # Ajouter les permissions datasource pour le rôle Public
+            perm = security_manager.find_permission_view_menu(
+                'datasource_access',
+                f'[{dataset.database.database_name}].[{dataset.table_name}](id:{dataset.id})'
+            )
+            
+            if perm and perm not in public_role.permissions:
+                public_role.permissions.append(perm)
                 updated += 1
-                print(f"  ✓ {dataset.table_name} - Rôle Public ajouté")
+                print(f"  ✓ {dataset.table_name} - Permission datasource_access ajoutée")
+            elif perm:
+                print(f"  → {dataset.table_name} - Permission déjà présente")
             else:
-                print(f"  → {dataset.table_name} - Rôle Public déjà présent")
+                # Créer la permission si elle n'existe pas
+                security_manager.add_permission_view_menu(
+                    'datasource_access',
+                    f'[{dataset.database.database_name}].[{dataset.table_name}](id:{dataset.id})'
+                )
+                perm = security_manager.find_permission_view_menu(
+                    'datasource_access',
+                    f'[{dataset.database.database_name}].[{dataset.table_name}](id:{dataset.id})'
+                )
+                if perm:
+                    public_role.permissions.append(perm)
+                    updated += 1
+                    print(f"  ✓ {dataset.table_name} - Permission créée et ajoutée")
         
         # Commit les changements
         db.session.commit()
