@@ -19,14 +19,14 @@ SUPERSET_JWT_SECRET = os.getenv('SUPERSET_JWT_SECRET', 'changeme-jwt-secret')
 # CONFIGURATION RÔLE PUBLIC - LECTURE SEULE STRICTE
 # ============================================================================
 
-# Configuration des rôles
-AUTH_TYPE = 1  # Database authentication
+# Configuration des rôles et authentification
+from flask_appbuilder.security.manager import AUTH_DB
+AUTH_TYPE = AUTH_DB
 AUTH_ROLE_ADMIN = 'Admin'
 AUTH_ROLE_PUBLIC = 'Public'
 
-# Le rôle Public a des permissions limitées (ne pas utiliser Gamma comme base)
-# On va créer des permissions personnalisées plus restrictives
-PUBLIC_ROLE_LIKE = None  # Ne pas hériter de Gamma
+# IMPORTANT : Permettre l'accès public sans authentification
+PUBLIC_ROLE_LIKE_GAMMA = True  # Le rôle Public hérite des permissions de base de Gamma
 
 # Autoriser les utilisateurs non authentifiés avec le rôle Public
 AUTH_USER_REGISTRATION = False
@@ -35,7 +35,7 @@ AUTH_USER_REGISTRATION_ROLE = "Public"
 # Empêcher l'accès aux données brutes
 PREVENT_UNSAFE_DEFAULT_URLS_ON_DATASET = True
 
-# Désactiver l'exploration de données pour le rôle Public
+# Désactiver l'exploration de données
 SQLLAB_CTAS_NO_LIMIT = False
 
 # ============================================================================
