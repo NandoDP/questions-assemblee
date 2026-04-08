@@ -11,14 +11,15 @@ os.environ.setdefault('SUPERSET_CONFIG_PATH', '/app/pythonpath/superset_config.p
 
 try:
     from superset.app import create_app
-    from superset import security_manager
-    from superset.extensions import db
-    from superset.connectors.sqla.models import SqlaTable
     
     print("📊 Attribution du rôle Public à tous les datasets...")
     
     app = create_app()
     with app.app_context():
+        # Importer APRÈS create_app() pour éviter l'erreur "App not initialized"
+        from superset import security_manager
+        from superset.extensions import db
+        from superset.connectors.sqla.models import SqlaTable
         # Récupérer le rôle Public
         public_role = security_manager.find_role("Public")
         
