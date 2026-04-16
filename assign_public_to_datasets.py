@@ -63,6 +63,40 @@ try:
                     updated += 1
                     print(f"  ✓ {dataset.table_name} - Permission créée et ajoutée")
         
+        # Ajouter les permissions d'accès à la base de données et au schéma
+        print("\n📚 Attribution des permissions base de données...")
+        from superset.connectors.sqla.models import Database as SqlaDatabase
+        databases = db.session.query(SqlaDatabase).all()
+        
+        for database in databases:
+            # Permission database_access
+            db_perm = security_manager.find_permission_view_menu(
+                'database_access',
+                f'[{database.database_name}].(id:{database.id})'
+            )
+            if db_perm and db_perm not in public_role.permissions:
+                public_role.permissions.append(db_perm)
+                print(f"  ✓ {database.database_name} - Permission database_access ajoutée")
+            
+            # Permission schema_access pour le schéma public
+            schema_perm = security_manager.find_permission_view_menu(
+                'schema_access',
+                f'[{database.database_name}].[public]'
+            )
+            if not schema_perm:
+                security_manager.add_permission_view_menu(
+                    'schema_access',
+                    f'[{database.database_name}].[public]'
+                )
+                schema_perm = security_manager.find_permission_view_menu(
+                    'schema_access',
+                    f'[{database.database_name}].[public]'
+                )
+            
+            if schema_perm and schema_perm not in public_role.permissions:
+                public_role.permissions.append(schema_perm)
+                print(f"  ✓ {database.database_name}.public - Permission schema_access ajoutée")
+        
         # Commit les changements
         db.session.commit()
         
