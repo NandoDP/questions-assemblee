@@ -36,6 +36,10 @@ python /app/docker/configure_public_role.py || echo "⚠️ Échec config Public
 echo "📊 Attribution du rôle Public aux datasets..."
 python /app/docker/assign_public_to_datasets.py || echo "⚠️ Échec attribution datasets (non bloquant)"
 
+# Créer l'utilisateur guest pour accès public
+echo "👤 Création de l'utilisateur guest..."
+python /app/docker/create_guest_user.py || echo "⚠️ Échec création guest (non bloquant)"
+
 echo "✅ Initialisation terminée"
 
 # Démarrer Superset

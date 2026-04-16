@@ -31,12 +31,14 @@ COPY init-superset.sh /app/docker/
 COPY superset_readonly_public.sh /app/docker/
 COPY configure_public_role.py /app/docker/
 COPY assign_public_to_datasets.py /app/docker/
+COPY create_guest_user.py /app/docker/
 
 # Rendre les scripts exécutables
 RUN chmod +x /app/docker/init-superset.sh
 RUN chmod +x /app/docker/superset_readonly_public.sh
 RUN chmod +x /app/docker/configure_public_role.py
 RUN chmod +x /app/docker/assign_public_to_datasets.py
+RUN chmod +x /app/docker/create_guest_user.py
 
 # Créer les répertoires nécessaires
 RUN mkdir -p /app/superset_home
