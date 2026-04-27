@@ -40,6 +40,10 @@ python /app/docker/assign_public_to_datasets.py || echo "⚠️ Échec attributi
 echo "👤 Création de l'utilisateur guest..."
 python /app/docker/create_guest_user.py || echo "⚠️ Échec création guest (non bloquant)"
 
+# Créer le compte de service pour Embedded SDK
+echo "🔑 Création du compte de service Embedded SDK..."
+python /app/docker/create_embed_service_user.py || echo "⚠️ Échec création compte embed (non bloquant)"
+
 echo "✅ Initialisation terminée"
 
 # Démarrer Superset

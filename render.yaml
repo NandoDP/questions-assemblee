@@ -30,6 +30,14 @@ services:
         generateValue: true
       - key: SUPERSET_JWT_SECRET
         generateValue: true
+      - key: SUPERSET_EMBED_USERNAME
+        value: embed_service
+      - key: SUPERSET_EMBED_PASSWORD
+        generateValue: true
+      - key: SUPERSET_EMBED_EMAIL
+        value: embed-service@example.com
+      - key: SUPERSET_EMBED_ROLE_NAME
+        value: EmbeddedService
       - key: REDIS_URL
         value: redis://red-example:6379/0  # Optionnel: ajouter Redis si nécessaire
     healthCheckPath: /health
@@ -44,6 +52,12 @@ services:
     envVars:
       - key: SUPERSET_URL
         value: https://questions-assemblee-superset.onrender.com
+      - key: SUPERSET_EMBED_USERNAME
+        value: embed_service
+      - key: SUPERSET_EMBED_PASSWORD
+        sync: false
+      - key: SUPERSET_DASHBOARD_ID
+        value: 1
       - key: FLASK_SECRET_KEY
         generateValue: true
     healthCheckPath: /

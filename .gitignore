@@ -1,5 +1,7 @@
 .env
 /models/results/
+__pycache__/
+*.pyc
 
 # Modèles ML trop volumineux pour GitHub (> 100 MB)
 models/camembert_model/model.safetensors

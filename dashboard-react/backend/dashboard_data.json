@@ -1,0 +1,1314 @@
+{
+  "dashboard": {
+    "certification_details": "",
+    "certified_by": "",
+    "changed_by": {
+      "first_name": "Admin",
+      "id": 1,
+      "last_name": "User"
+    },
+    "changed_by_name": "Admin User",
+    "changed_on": "2026-04-08T15:20:06.474616",
+    "changed_on_delta_humanized": "18 days ago",
+    "charts": [
+      "Volume de questions par régions",
+      "Répartition par thématique",
+      "Évolution mensuelle des questions",
+      "TOP 10 des députes les plus actifs",
+      "Nuage de mots-clés",
+      "Nombre total de questions",
+      "Taux de réponse global",
+      "Nombre de députés actifs"
+    ],
+    "created_by": {
+      "first_name": "Admin",
+      "id": 1,
+      "last_name": "User"
+    },
+    "created_on_delta_humanized": "19 days ago",
+    "css": "",
+    "dashboard_title": "Analyse des questions parlementaires",
+    "id": 1,
+    "is_managed_externally": false,
+    "json_metadata": "{\"chart_configuration\": {\"2\": {\"id\": 2, \"crossFilters\": {\"scope\": \"global\", \"chartsInScope\": [1, 3, 4, 5, 6, 7, 8]}}, \"3\": {\"id\": 3, \"crossFilters\": {\"scope\": \"global\", \"chartsInScope\": [1, 2, 4, 5, 6, 7, 8]}}, \"4\": {\"id\": 4, \"crossFilters\": {\"scope\": \"global\", \"chartsInScope\": [1, 2, 3, 5, 6, 7, 8]}}}, \"global_chart_configuration\": {\"scope\": {\"rootPath\": [\"ROOT_ID\"], \"excluded\": []}, \"chartsInScope\": [1, 2, 3, 4, 5, 6, 7, 8]}, \"color_scheme\": \"\", \"refresh_frequency\": 0, \"expanded_slices\": {}, \"label_colors\": {}, \"timed_refresh_immune_slices\": [], \"cross_filters_enabled\": true, \"default_filters\": \"{}\", \"color_scheme_domain\": [], \"shared_label_colors\": [], \"map_label_colors\": {\"COUNT(nombre_questions)\": \"#1FA8C9\", \"agriculture\": \"#454E7C\", \"education\": \"#5AC189\", \"securite\": \"#FF7F44\", \"numerique\": \"#666666\", \"environnement\": \"#E04355\", \"sante\": \"#FCC700\", \"economie\": \"#A868B7\", \"culture\": \"#3CCCCB\", \"justice\": \"#A38F79\", \"energie\": \"#8FD3E4\", \"transport\": \"#A1A6BD\", \"logement\": \"#ACE1C4\", \"fonction_publique\": \"#FEC0A1\", \"Nombre de questions\": \"#1FA8C9\", \"Nombre de r\\u00e9ponses\": \"#454E7C\", \"ministre\": \"#1FA8C9\", \"le ministre\": \"#454E7C\", \"monsieur\": \"#5AC189\", \"d\\u00e9put\\u00e9\": \"#FF7F44\", \"question\": \"#666666\", \"situation\": \"#E04355\", \"d\\u00e9partement\": \"#FCC700\", \"mesure\": \"#A868B7\", \"national\": \"#3CCCCB\", \"probl\\u00e8me\": \"#A38F79\", \"\\u00e9tat\": \"#8FD3E4\", \"gouvernement\": \"#A1A6BD\", \"population\": \"#ACE1C4\", \"cette situation\": \"#FEC0A1\", \"\\u00e9crite\": \"#B2B2B2\", \"l\\u00e9gislatur\": \"#EFA1AA\", \"service\": \"#FDE380\", \"xv\": \"#D3B3DA\", \"commune\": \"#9EE5E5\", \"s\\u00e9n\\u00e9galais\": \"#D1C6BC\", \"travail\": \"#454E7C\", \"public\": \"#5AC189\", \"concitoyen\": \"#FF7F44\", \"eau\": \"#666666\", \"le gouvernement\": \"#E04355\", \"l \\u00e9tat\": \"#FCC700\", \"mois\": \"#A868B7\", \"s\\u00e9n\\u00e9gal\": \"#3CCCCB\", \"ann\\u00e9e\": \"#A38F79\", \"cas\": \"#8FD3E4\", \"compte\": \"#A1A6BD\", \"construction\": \"#ACE1C4\", \"pays\": \"#FEC0A1\", \"sant\\u00e9\": \"#B2B2B2\", \"social\": \"#EFA1AA\", \"attention\": \"#FDE380\", \"place\": \"#D3B3DA\", \"point\": \"#9EE5E5\", \"solution\": \"#D1C6BC\", \"actuel\": \"#D1C6BC\", \"an\": \"#454E7C\", \"autorit\\u00e9\": \"#5AC189\", \"charge\": \"#FF7F44\", \"condition\": \"#666666\", \"consid\\u00e9ration\": \"#E04355\", \"d\\u00e9veloppement\": \"#FCC700\", \"disposition\": \"#A868B7\", \"droit\": \"#3CCCCB\", \"\\u00e9cole\": \"#A38F79\", \"\\u00e9l\\u00e8ve\": \"#8FD3E4\", \"face\": \"#A1A6BD\", \"gestion\": \"#ACE1C4\", \"grand\": \"#FEC0A1\", \"important\": \"#B2B2B2\", \"infrastructure\": \"#EFA1AA\", \"jour\": \"#D3B3DA\", \"la commune\": \"#9EE5E5\", \"le d\\u00e9put\\u00e9\": \"#D1C6BC\", \"manque\": \"#FDE380\", \"projet\": \"#666666\", \"s\\u00e9curit\\u00e9\": \"#E04355\", \"votre d\\u00e9partement\": \"#454E7C\", \"action\": \"#3CCCCB\", \"bon\": \"#A38F79\", \"cadre\": \"#8FD3E4\", \"centre\": \"#FCC700\", \"famille\": \"#FEC0A1\", \"g\\u00e9n\\u00e9ral\": \"#A868B7\", \"habitant\": \"#FDE380\", \"h\\u00f4pital\": \"#5AC189\", \"initiative\": \"#FF7F44\", \"r\\u00e9gion\": \"#A1A6BD\", \"meilleur\": \"#ACE1C4\", \"zone\": \"#FCC700\", \"guy marius sagna d\\u00e9put\\u00e9 de la xve l\\u00e9gislature\": \"#B2B2B2\", \"nos concitoyens\": \"#EFA1AA\", \"absence\": \"#5AC189\", \"mise\": \"#454E7C\", \"local\": \"#9EE5E5\", \"montant\": \"#E04355\"}}",
+    "owners": [
+      {
+        "first_name": "Admin",
+        "id": 1,
+        "last_name": "User"
+      }
+    ],
+    "position_json": "{\"CHART-DS0Y-1jzq6pRJvro6ug9U\":{\"children\":[],\"id\":\"CHART-DS0Y-1jzq6pRJvro6ug9U\",\"meta\":{\"chartId\":1,\"height\":50,\"sliceName\":\"Volume de questions par r\\u00e9gions\",\"uuid\":\"8a87bc2e-aebe-4aa7-b8d0-7b16437e79cc\",\"width\":6},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-X73PurB1GHf032HQ53sNu\"],\"type\":\"CHART\"},\"CHART-explore-2-1\":{\"children\":[],\"id\":\"CHART-explore-2-1\",\"meta\":{\"chartId\":2,\"height\":50,\"sliceName\":\"TOP 10 des d\\u00e9putes les plus actifs\",\"uuid\":\"b8b494c7-bbf3-4d32-aef9-4d838ff8f04b\",\"width\":4},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-_cvIoH2te6qcu-S7h7TEu\"],\"type\":\"CHART\"},\"CHART-explore-3-1\":{\"children\":[],\"id\":\"CHART-explore-3-1\",\"meta\":{\"chartId\":3,\"height\":50,\"sliceName\":\"R\\u00e9partition par th\\u00e9matique\",\"uuid\":\"8a30b141-80d0-4ffa-a6bc-21f497d6377f\",\"width\":4},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-_cvIoH2te6qcu-S7h7TEu\"],\"type\":\"CHART\"},\"CHART-explore-4-1\":{\"children\":[],\"id\":\"CHART-explore-4-1\",\"meta\":{\"chartId\":4,\"height\":50,\"sliceName\":\"\\u00c9volution mensuelle des questions\",\"uuid\":\"f93a3ab3-aa2b-432a-8377-042a1c214182\",\"width\":4},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-_cvIoH2te6qcu-S7h7TEu\"],\"type\":\"CHART\"},\"CHART-explore-5-1\":{\"children\":[],\"id\":\"CHART-explore-5-1\",\"meta\":{\"chartId\":5,\"height\":50,\"sliceName\":\"Nuage de mots-cl\\u00e9s\",\"uuid\":\"d03c716c-d846-4fb2-a5d0-48199b55ef1e\",\"width\":6},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-X73PurB1GHf032HQ53sNu\"],\"type\":\"CHART\"},\"CHART-explore-6-1\":{\"children\":[],\"id\":\"CHART-explore-6-1\",\"meta\":{\"chartId\":6,\"height\":50,\"sliceName\":\"Nombre total de questions\",\"uuid\":\"8ac6fb12-9767-4c0b-a2fa-fa6a1be9ff1c\",\"width\":4},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-IbeOzXq61gM0cYuit8DAP\"],\"type\":\"CHART\"},\"CHART-explore-7-1\":{\"children\":[],\"id\":\"CHART-explore-7-1\",\"meta\":{\"chartId\":7,\"height\":50,\"sliceName\":\"Taux de r\\u00e9ponse global\",\"uuid\":\"9dda93a7-d86a-4210-a86e-1465dcd1b83c\",\"width\":4},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-IbeOzXq61gM0cYuit8DAP\"],\"type\":\"CHART\"},\"CHART-explore-8-1\":{\"children\":[],\"id\":\"CHART-explore-8-1\",\"meta\":{\"chartId\":8,\"height\":50,\"sliceName\":\"Nombre de d\\u00e9put\\u00e9s actifs\",\"uuid\":\"0378a9f7-96fa-4a45-910f-349d3df0f316\",\"width\":4},\"parents\":[\"ROOT_ID\",\"GRID_ID\",\"ROW-IbeOzXq61gM0cYuit8DAP\"],\"type\":\"CHART\"},\"DASHBOARD_VERSION_KEY\":\"v2\",\"GRID_ID\":{\"children\":[\"ROW-IbeOzXq61gM0cYuit8DAP\",\"ROW-_cvIoH2te6qcu-S7h7TEu\",\"ROW-X73PurB1GHf032HQ53sNu\"],\"id\":\"GRID_ID\",\"parents\":[\"ROOT_ID\"],\"type\":\"GRID\"},\"HEADER_ID\":{\"id\":\"HEADER_ID\",\"meta\":{\"text\":\"Analyse des questions parlementaires\"},\"type\":\"HEADER\"},\"ROOT_ID\":{\"children\":[\"GRID_ID\"],\"id\":\"ROOT_ID\",\"type\":\"ROOT\"},\"ROW-IbeOzXq61gM0cYuit8DAP\":{\"children\":[\"CHART-explore-6-1\",\"CHART-explore-7-1\",\"CHART-explore-8-1\"],\"id\":\"ROW-IbeOzXq61gM0cYuit8DAP\",\"meta\":{\"background\":\"BACKGROUND_TRANSPARENT\"},\"parents\":[\"ROOT_ID\",\"GRID_ID\"],\"type\":\"ROW\"},\"ROW-X73PurB1GHf032HQ53sNu\":{\"children\":[\"CHART-explore-5-1\",\"CHART-DS0Y-1jzq6pRJvro6ug9U\"],\"id\":\"ROW-X73PurB1GHf032HQ53sNu\",\"meta\":{\"0\":\"ROOT_ID\",\"background\":\"BACKGROUND_TRANSPARENT\"},\"parents\":[\"ROOT_ID\",\"GRID_ID\"],\"type\":\"ROW\"},\"ROW-_cvIoH2te6qcu-S7h7TEu\":{\"children\":[\"CHART-explore-4-1\",\"CHART-explore-3-1\",\"CHART-explore-2-1\"],\"id\":\"ROW-_cvIoH2te6qcu-S7h7TEu\",\"meta\":{\"0\":\"ROOT_ID\",\"background\":\"BACKGROUND_TRANSPARENT\"},\"parents\":[\"ROOT_ID\",\"GRID_ID\"],\"type\":\"ROW\"}}",
+    "published": true,
+    "roles": [
+      {
+        "id": 2,
+        "name": "Public"
+      }
+    ],
+    "slug": null,
+    "tags": [],
+    "theme": null,
+    "thumbnail_url": null,
+    "url": "/superset/dashboard/1/",
+    "uuid": "4f21ebe7-0c70-4b45-b1ae-b874d44911e4"
+  },
+  "charts": [
+    {
+      "id": 1,
+      "name": "Volume de questions par régions",
+      "data": {
+        "result": [
+          {
+            "cache_key": "8ed36190c1f9baa1144bb55d5020b794",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT sum(count) AS \"SUM(count)\" \nFROM (SELECT\n  d.nom AS departement,\n  d.code_region,\n  d.code_dep,\n  d.latitude,\n  d.longitude,\n  q.thematique_principale,\n  q.depute_id,\n  COUNT(q.depute_id)\nFROM questions AS q\nJOIN LATERAL UNNEST(q.departements_concernes) AS departement\n  ON TRUE\nLEFT JOIN departements AS d\n  ON d.nom = departement\nWHERE\n  NOT q.departements_concernes IS NULL\nGROUP BY\n  d.nom,\n  d.latitude,\n  d.longitude,\n  q.thematique_principale,\n  q.depute_id) AS virtual_table \n LIMIT 50000;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 1,
+            "sql_rowcount": 1,
+            "from_dttm": null,
+            "to_dttm": null,
+            "label_map": {
+              "SUM(count)": [
+                "SUM(count)"
+              ]
+            },
+            "colnames": [
+              "SUM(count)"
+            ],
+            "indexnames": [
+              0
+            ],
+            "coltypes": [
+              0
+            ],
+            "data": [
+              {
+                "SUM(count)": 148
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [],
+            "rejected_filters": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "TOP 10 des députes les plus actifs",
+      "data": {
+        "result": [
+          {
+            "cache_key": "39613fdd9975f1867c1d4fb435e112d7",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT nom_complet AS nom_complet, groupe_parlementaire AS groupe_parlementaire, count(nombre_questions) AS \"Nombre de questions\", SUM(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) AS \"Nombre de reponses\" \nFROM (SELECT\n  q.id,\n  q.depute_id,\n  q.thematique_principale,\n  d.nom_complet,\n  d.parti_politique,\n  d.groupe_parlementaire,\n  q.statut,\n  COUNT(*) OVER (PARTITION BY q.depute_id, q.thematique_principale) AS nombre_questions\nFROM questions AS q\nJOIN deputes AS d\n  ON q.depute_id = d.id) AS virtual_table GROUP BY nom_complet, groupe_parlementaire ORDER BY \"Nombre de questions\" DESC \n LIMIT 10000;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 33,
+            "sql_rowcount": 33,
+            "from_dttm": null,
+            "to_dttm": null,
+            "label_map": {
+              "nom_complet": [
+                "nom_complet"
+              ],
+              "groupe_parlementaire": [
+                "groupe_parlementaire"
+              ],
+              "Nombre de questions": [
+                "Nombre de questions"
+              ],
+              "Nombre de reponses": [
+                "SUM(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END)"
+              ]
+            },
+            "colnames": [
+              "nom_complet",
+              "groupe_parlementaire",
+              "Nombre de questions",
+              "Nombre de reponses"
+            ],
+            "indexnames": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32
+            ],
+            "coltypes": [
+              1,
+              1,
+              0,
+              0
+            ],
+            "data": [
+              {
+                "nom_complet": "GUY MARIUS SAGNA",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 137,
+                "Nombre de reponses": 3
+              },
+              {
+                "nom_complet": "MADY DANFAKHA",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 16,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "SERIGNE ABDOUL AHAD NDIAYE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 16,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "ABDOULAYE THOMAS FAYE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 10,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "ELHADJI OUSMANE FALL",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 9,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "PAPA TAHIROU SARR",
+                "groupe_parlementaire": "Non inscrits",
+                "Nombre de questions": 8,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "SEYNABOU YACINE SAMBE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 7,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "BABACAR NDIAYE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 5,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "MAREME MBACKE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 5,
+                "Nombre de reponses": 1
+              },
+              {
+                "nom_complet": "BADARA DIOUF",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 5,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "THIERNO ALASSANE SALL",
+                "groupe_parlementaire": "Non inscrits",
+                "Nombre de questions": 4,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "ABDOUL KADYR SONKO",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 4,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "MOHAMED SIRADIO SOUARE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 3,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "MOUSSA MBAYE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 3,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "CHEIKH AHMED TIDIANE YOUM",
+                "groupe_parlementaire": "Non inscrits",
+                "Nombre de questions": 3,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "AMADOU DIALLO",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 2,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "ABDOU MBOW",
+                "groupe_parlementaire": "TAKKU WALLU",
+                "Nombre de questions": 2,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "ISMAILA MAMADOU ABDOUL WONE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 2,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "OUSMANE CISS",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 2,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "AMADOU BA",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "PAPA DJIBRIL FALL",
+                "groupe_parlementaire": "Non inscrits",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "SAYE CISSE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "SAMBA DANG",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "ABDOURAHMANE DIOUF",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "AMADOU LAMINE DIOUF",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "AWA SECK",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "OUSMANE DIOP",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "JACQUELINE SAGNA",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "KHADY SOW",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "FATOU DIOP CISSE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 1
+              },
+              {
+                "nom_complet": "AICHA TOURE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "BARA NDIAYE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              },
+              {
+                "nom_complet": "CHEIKH THIORO MBACKE",
+                "groupe_parlementaire": "PASTEF",
+                "Nombre de questions": 1,
+                "Nombre de reponses": 0
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [],
+            "rejected_filters": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "Répartition par thématique",
+      "data": {
+        "result": [
+          {
+            "cache_key": "801f74926d81d72b6b70c14933bcfd38",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT thematique_principale AS thematique_principale, count(nombre_questions) AS \"COUNT(nombre_questions)\" \nFROM (SELECT\n  q.id,\n  q.depute_id,\n  q.thematique_principale,\n  d.nom_complet,\n  d.parti_politique,\n  d.groupe_parlementaire,\n  q.statut,\n  COUNT(*) OVER (PARTITION BY q.depute_id, q.thematique_principale) AS nombre_questions\nFROM questions AS q\nJOIN deputes AS d\n  ON q.depute_id = d.id) AS virtual_table GROUP BY thematique_principale \n LIMIT 100;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 13,
+            "sql_rowcount": 13,
+            "from_dttm": null,
+            "to_dttm": null,
+            "label_map": {
+              "thematique_principale": [
+                "thematique_principale"
+              ],
+              "COUNT(nombre_questions)": [
+                "COUNT(nombre_questions)"
+              ]
+            },
+            "colnames": [
+              "thematique_principale",
+              "COUNT(nombre_questions)"
+            ],
+            "indexnames": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "coltypes": [
+              1,
+              0
+            ],
+            "data": [
+              {
+                "thematique_principale": "agriculture",
+                "COUNT(nombre_questions)": 6
+              },
+              {
+                "thematique_principale": "education",
+                "COUNT(nombre_questions)": 53
+              },
+              {
+                "thematique_principale": "securite",
+                "COUNT(nombre_questions)": 17
+              },
+              {
+                "thematique_principale": "numerique",
+                "COUNT(nombre_questions)": 5
+              },
+              {
+                "thematique_principale": "environnement",
+                "COUNT(nombre_questions)": 11
+              },
+              {
+                "thematique_principale": "sante",
+                "COUNT(nombre_questions)": 56
+              },
+              {
+                "thematique_principale": "economie",
+                "COUNT(nombre_questions)": 15
+              },
+              {
+                "thematique_principale": "culture",
+                "COUNT(nombre_questions)": 27
+              },
+              {
+                "thematique_principale": "justice",
+                "COUNT(nombre_questions)": 20
+              },
+              {
+                "thematique_principale": "energie",
+                "COUNT(nombre_questions)": 13
+              },
+              {
+                "thematique_principale": "transport",
+                "COUNT(nombre_questions)": 25
+              },
+              {
+                "thematique_principale": "logement",
+                "COUNT(nombre_questions)": 6
+              },
+              {
+                "thematique_principale": "fonction_publique",
+                "COUNT(nombre_questions)": 3
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [],
+            "rejected_filters": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "name": "Évolution mensuelle des questions",
+      "data": {
+        "result": [
+          {
+            "cache_key": "2b63650225d197984f1dc72f012c2128",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT DATE_TRUNC('month', date_depot) AS date_depot, COUNT(*) AS \"Nombre de questions\", SUM(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) AS \"Nombre de réponses\" \nFROM (SELECT\n  *,\n  COUNT(*) OVER (PARTITION BY q.depute_id, q.thematique_principale) AS nombre_questions\nFROM questions AS q) AS virtual_table \nWHERE date_depot >= TO_DATE('2024-04-07', 'YYYY-MM-DD') AND date_depot < TO_DATE('2026-04-07', 'YYYY-MM-DD') GROUP BY DATE_TRUNC('month', date_depot) ORDER BY \"Nombre de questions\" DESC \n LIMIT 10000;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 9,
+            "sql_rowcount": 9,
+            "from_dttm": 1712448000000.0,
+            "to_dttm": 1775520000000.0,
+            "label_map": {
+              "date_depot": [
+                "date_depot"
+              ],
+              "Nombre de questions": [
+                "COUNT(*)"
+              ],
+              "Nombre de réponses": [
+                "SUM(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END)"
+              ]
+            },
+            "colnames": [
+              "date_depot",
+              "Nombre de questions",
+              "Nombre de réponses"
+            ],
+            "indexnames": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "coltypes": [
+              2,
+              0,
+              0
+            ],
+            "data": [
+              {
+                "date_depot": 1733011200000.0,
+                "Nombre de questions": 64.0,
+                "Nombre de réponses": 2.0
+              },
+              {
+                "date_depot": 1735689600000.0,
+                "Nombre de questions": 45.0,
+                "Nombre de réponses": 1.0
+              },
+              {
+                "date_depot": 1738368000000.0,
+                "Nombre de questions": 63.0,
+                "Nombre de réponses": 2.0
+              },
+              {
+                "date_depot": 1740787200000.0,
+                "Nombre de questions": 29.0,
+                "Nombre de réponses": 0.0
+              },
+              {
+                "date_depot": 1743465600000.0,
+                "Nombre de questions": 36.0,
+                "Nombre de réponses": 0.0
+              },
+              {
+                "date_depot": 1746057600000.0,
+                "Nombre de questions": 10.0,
+                "Nombre de réponses": 0.0
+              },
+              {
+                "date_depot": 1748736000000.0,
+                "Nombre de questions": 7.0,
+                "Nombre de réponses": 0.0
+              },
+              {
+                "date_depot": 1751328000000.0,
+                "Nombre de questions": 1.0,
+                "Nombre de réponses": 0.0
+              },
+              {
+                "date_depot": 1754006400000.0,
+                "Nombre de questions": 1.0,
+                "Nombre de réponses": 0.0
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [
+              {
+                "column": "date_depot"
+              }
+            ],
+            "rejected_filters": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Nuage de mots-clés",
+      "data": {
+        "result": [
+          {
+            "cache_key": "926967c4c779acd017ebacf13786bdbe",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT mot_cle AS mot_cle, sum(frequence) AS \"SUM(frequence)\" \nFROM (SELECT\n  UNNEST(mots_cles) AS mot_cle,\n  COUNT(*) AS frequence\nFROM questions\nWHERE\n  NOT mots_cles IS NULL\nGROUP BY\n  mot_cle\nORDER BY\n  frequence DESC\nLIMIT 100) AS virtual_table GROUP BY mot_cle \n LIMIT 100;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 100,
+            "sql_rowcount": 100,
+            "from_dttm": null,
+            "to_dttm": null,
+            "label_map": {
+              "mot_cle": [
+                "mot_cle"
+              ],
+              "SUM(frequence)": [
+                "SUM(frequence)"
+              ]
+            },
+            "colnames": [
+              "mot_cle",
+              "SUM(frequence)"
+            ],
+            "indexnames": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              46,
+              47,
+              48,
+              49,
+              50,
+              51,
+              52,
+              53,
+              54,
+              55,
+              56,
+              57,
+              58,
+              59,
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              70,
+              71,
+              72,
+              73,
+              74,
+              75,
+              76,
+              77,
+              78,
+              79,
+              80,
+              81,
+              82,
+              83,
+              84,
+              85,
+              86,
+              87,
+              88,
+              89,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ],
+            "coltypes": [
+              1,
+              0
+            ],
+            "data": [
+              {
+                "mot_cle": "absence",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "action",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "actuel",
+                "SUM(frequence)": 21
+              },
+              {
+                "mot_cle": "an",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "année",
+                "SUM(frequence)": 28
+              },
+              {
+                "mot_cle": "attention",
+                "SUM(frequence)": 24
+              },
+              {
+                "mot_cle": "autorité",
+                "SUM(frequence)": 20
+              },
+              {
+                "mot_cle": "bon",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "cadre",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "cas",
+                "SUM(frequence)": 29
+              },
+              {
+                "mot_cle": "centre",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "cette situation",
+                "SUM(frequence)": 40
+              },
+              {
+                "mot_cle": "charge",
+                "SUM(frequence)": 21
+              },
+              {
+                "mot_cle": "commune",
+                "SUM(frequence)": 39
+              },
+              {
+                "mot_cle": "compte",
+                "SUM(frequence)": 28
+              },
+              {
+                "mot_cle": "concitoyen",
+                "SUM(frequence)": 30
+              },
+              {
+                "mot_cle": "condition",
+                "SUM(frequence)": 23
+              },
+              {
+                "mot_cle": "considération",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "construction",
+                "SUM(frequence)": 29
+              },
+              {
+                "mot_cle": "département",
+                "SUM(frequence)": 58
+              },
+              {
+                "mot_cle": "député",
+                "SUM(frequence)": 89
+              },
+              {
+                "mot_cle": "développement",
+                "SUM(frequence)": 21
+              },
+              {
+                "mot_cle": "disposition",
+                "SUM(frequence)": 20
+              },
+              {
+                "mot_cle": "droit",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "eau",
+                "SUM(frequence)": 30
+              },
+              {
+                "mot_cle": "école",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "écrite",
+                "SUM(frequence)": 41
+              },
+              {
+                "mot_cle": "élève",
+                "SUM(frequence)": 21
+              },
+              {
+                "mot_cle": "état",
+                "SUM(frequence)": 47
+              },
+              {
+                "mot_cle": "expression",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "face",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "famille",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "financier",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "général",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "gestion",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "gouvernement",
+                "SUM(frequence)": 49
+              },
+              {
+                "mot_cle": "grand",
+                "SUM(frequence)": 20
+              },
+              {
+                "mot_cle": "guy marius sagna député de la xve législature",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "habitant",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "honorable",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "hôpital",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "important",
+                "SUM(frequence)": 21
+              },
+              {
+                "mot_cle": "information",
+                "SUM(frequence)": 16
+              },
+              {
+                "mot_cle": "infrastructure",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "initiative",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "jour",
+                "SUM(frequence)": 23
+              },
+              {
+                "mot_cle": "la commune",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "le département",
+                "SUM(frequence)": 20
+              },
+              {
+                "mot_cle": "le député",
+                "SUM(frequence)": 23
+              },
+              {
+                "mot_cle": "législatur",
+                "SUM(frequence)": 42
+              },
+              {
+                "mot_cle": "le gouvernement",
+                "SUM(frequence)": 30
+              },
+              {
+                "mot_cle": "le ministre",
+                "SUM(frequence)": 166
+              },
+              {
+                "mot_cle": "les populations",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "l état",
+                "SUM(frequence)": 30
+              },
+              {
+                "mot_cle": "l expression",
+                "SUM(frequence)": 16
+              },
+              {
+                "mot_cle": "local",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "manque",
+                "SUM(frequence)": 20
+              },
+              {
+                "mot_cle": "meilleur",
+                "SUM(frequence)": 16
+              },
+              {
+                "mot_cle": "mesure",
+                "SUM(frequence)": 59
+              },
+              {
+                "mot_cle": "ministère",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "ministre",
+                "SUM(frequence)": 186
+              },
+              {
+                "mot_cle": "mise",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "mois",
+                "SUM(frequence)": 30
+              },
+              {
+                "mot_cle": ", monsieur",
+                "SUM(frequence)": 16
+              },
+              {
+                "mot_cle": "monsieur",
+                "SUM(frequence)": 156
+              },
+              {
+                "mot_cle": "montant",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "national",
+                "SUM(frequence)": 55
+              },
+              {
+                "mot_cle": "nécessaire",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "nos concitoyens",
+                "SUM(frequence)": 23
+              },
+              {
+                "mot_cle": "parlementaire",
+                "SUM(frequence)": 16
+              },
+              {
+                "mot_cle": "pays",
+                "SUM(frequence)": 29
+              },
+              {
+                "mot_cle": "place",
+                "SUM(frequence)": 24
+              },
+              {
+                "mot_cle": "point",
+                "SUM(frequence)": 25
+              },
+              {
+                "mot_cle": "politique",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "population",
+                "SUM(frequence)": 45
+              },
+              {
+                "mot_cle": "président",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "problème",
+                "SUM(frequence)": 51
+              },
+              {
+                "mot_cle": "projet",
+                "SUM(frequence)": 23
+              },
+              {
+                "mot_cle": "public",
+                "SUM(frequence)": 35
+              },
+              {
+                "mot_cle": "quelles mesures",
+                "SUM(frequence)": 21
+              },
+              {
+                "mot_cle": "question",
+                "SUM(frequence)": 76
+              },
+              {
+                "mot_cle": "question écrite",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "région",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "régional",
+                "SUM(frequence)": 17
+              },
+              {
+                "mot_cle": "ressource",
+                "SUM(frequence)": 18
+              },
+              {
+                "mot_cle": "salaire",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "santé",
+                "SUM(frequence)": 27
+              },
+              {
+                "mot_cle": "secteur",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "sécurité",
+                "SUM(frequence)": 22
+              },
+              {
+                "mot_cle": "sénégal",
+                "SUM(frequence)": 30
+              },
+              {
+                "mot_cle": "sénégalais",
+                "SUM(frequence)": 39
+              },
+              {
+                "mot_cle": "service",
+                "SUM(frequence)": 42
+              },
+              {
+                "mot_cle": "situation",
+                "SUM(frequence)": 74
+              },
+              {
+                "mot_cle": "social",
+                "SUM(frequence)": 29
+              },
+              {
+                "mot_cle": "solution",
+                "SUM(frequence)": 24
+              },
+              {
+                "mot_cle": "travail",
+                "SUM(frequence)": 39
+              },
+              {
+                "mot_cle": "village",
+                "SUM(frequence)": 19
+              },
+              {
+                "mot_cle": "votre département",
+                "SUM(frequence)": 21
+              },
+              {
+                "mot_cle": "xv",
+                "SUM(frequence)": 42
+              },
+              {
+                "mot_cle": "zone",
+                "SUM(frequence)": 16
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [],
+            "rejected_filters": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Nombre total de questions",
+      "data": {
+        "result": [
+          {
+            "cache_key": "0aa9979e2099d476e40e66210baabfe8",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT COUNT(*) AS count \nFROM (SELECT\n  *,\n  COUNT(*) OVER (PARTITION BY q.depute_id, q.thematique_principale) AS nombre_questions\nFROM questions AS q) AS virtual_table \n LIMIT 50000;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 1,
+            "sql_rowcount": 1,
+            "from_dttm": null,
+            "to_dttm": null,
+            "label_map": {
+              "count": [
+                "count"
+              ],
+              "COUNT(*)": [
+                "count"
+              ]
+            },
+            "colnames": [
+              "count"
+            ],
+            "indexnames": [
+              0
+            ],
+            "coltypes": [
+              0
+            ],
+            "data": [
+              {
+                "count": 257
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [
+              {
+                "column": "date_depot"
+              }
+            ],
+            "rejected_filters": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "Taux de réponse global",
+      "data": {
+        "result": [
+          {
+            "cache_key": "d00129ee09a62860a18e7bc9a11ea095",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT AVG(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) * 100 AS \"AVG(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) * 100\" \nFROM (SELECT\n  *,\n  COUNT(*) OVER (PARTITION BY q.depute_id, q.thematique_principale) AS nombre_questions\nFROM questions AS q) AS virtual_table \n LIMIT 50000;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 1,
+            "sql_rowcount": 1,
+            "from_dttm": null,
+            "to_dttm": null,
+            "label_map": {
+              "AVG(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) * 100": [
+                "AVG(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) * 100"
+              ]
+            },
+            "colnames": [
+              "AVG(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) * 100"
+            ],
+            "indexnames": [
+              0
+            ],
+            "coltypes": [
+              0
+            ],
+            "data": [
+              {
+                "AVG(CASE WHEN statut = 'repondue' THEN 1 ELSE 0 END) * 100": 1.9455252918287937
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [
+              {
+                "column": "date_depot"
+              }
+            ],
+            "rejected_filters": []
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "name": "Nombre de députés actifs",
+      "data": {
+        "result": [
+          {
+            "cache_key": "707f7478e1f31ad2f09b4224e95acd6c",
+            "cached_dttm": null,
+            "cache_timeout": 86400,
+            "applied_template_filters": [],
+            "annotation_data": {},
+            "error": null,
+            "is_cached": null,
+            "query": "SELECT COUNT(DISTINCT depute_id) AS \"COUNT(DISTINCT depute_id)\" \nFROM (SELECT\n  *,\n  COUNT(*) OVER (PARTITION BY q.depute_id, q.thematique_principale) AS nombre_questions\nFROM questions AS q) AS virtual_table \n LIMIT 50000;\n\n",
+            "status": "success",
+            "stacktrace": null,
+            "rowcount": 1,
+            "sql_rowcount": 1,
+            "from_dttm": null,
+            "to_dttm": null,
+            "label_map": {
+              "COUNT(DISTINCT depute_id)": [
+                "COUNT(DISTINCT depute_id)"
+              ]
+            },
+            "colnames": [
+              "COUNT(DISTINCT depute_id)"
+            ],
+            "indexnames": [
+              0
+            ],
+            "coltypes": [
+              0
+            ],
+            "data": [
+              {
+                "COUNT(DISTINCT depute_id)": 33
+              }
+            ],
+            "result_format": "json",
+            "applied_filters": [
+              {
+                "column": "date_depot"
+              }
+            ],
+            "rejected_filters": []
+          }
+        ]
+      }
+    }
+  ]
+}
