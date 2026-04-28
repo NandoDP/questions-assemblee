@@ -50,10 +50,15 @@ try:
             ("can_read", "Dashboard"),
             ("can_list", "Dashboard"),
             ("can_get_embedded", "Dashboard"),
+            ("can_read", "EmbeddedDashboard"),
             ("can_read", "Chart"),
             ("can_list", "Chart"),
             ("can_read", "Dataset"),
             ("can_read", "Database"),
+            ("can_read", "CurrentUserRestApi"),
+            ("can_read", "DashboardPermalinkRestApi"),
+            ("can_read", "DashboardFilterStateRestApi"),
+            ("can_write", "DashboardFilterStateRestApi"),
             ("menu_access", "Dashboards"),
         ]
         
