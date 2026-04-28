@@ -67,7 +67,7 @@ def get_superset_guest_token():
     """
     try:
         dashboard_id = request.args.get('dashboardId', SUPERSET_DASHBOARD_ID)
-        dashboard_uuid = superset.get_dashboard_uuid(
+        dashboard_uuid = superset.get_embedded_dashboard_uuid(
             dashboard_id=dashboard_id,
             username=SUPERSET_EMBED_USERNAME,
             password=SUPERSET_EMBED_PASSWORD,

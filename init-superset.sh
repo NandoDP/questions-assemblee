@@ -44,6 +44,10 @@ python /app/docker/create_guest_user.py || echo "⚠️ Échec création guest (
 echo "🔑 Création du compte de service Embedded SDK..."
 python /app/docker/create_embed_service_user.py || echo "⚠️ Échec création compte embed (non bloquant)"
 
+# Activer l'embed pour le dashboard principal
+echo "🧩 Configuration de l'embedded dashboard..."
+python /app/docker/create_embedded_dashboard_config.py || echo "⚠️ Échec configuration embedded dashboard (non bloquant)"
+
 echo "✅ Initialisation terminée"
 
 # Démarrer Superset

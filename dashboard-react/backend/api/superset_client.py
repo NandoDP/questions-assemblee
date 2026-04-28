@@ -64,19 +64,26 @@ class SupersetClient:
                 'Referer': self.base_url,
             })
 
-    def get_dashboard_uuid(self, dashboard_id: str, username: str, password: str) -> str:
-        """Résout l'UUID d'un dashboard requis par l'Embedded SDK."""
+    def get_embedded_dashboard_uuid(self, dashboard_id: str, username: str, password: str) -> str:
+        """Résout l'UUID de configuration embedded requis par l'Embedded SDK."""
         self.ensure_login(username, password)
 
-        response = self.session.get(f'{self.base_url}/api/v1/dashboard/{dashboard_id}')
+        response = self.session.get(f'{self.base_url}/api/v1/dashboard/{dashboard_id}/embedded')
+        if response.status_code == 404:
+            raise RuntimeError(
+                f'La configuration embedded du dashboard {dashboard_id} est absente dans Superset. '
+                'Activez l\'embed dans Superset ou créez la configuration via le bootstrap.'
+            )
         response.raise_for_status()
 
         result = response.json().get('result', {})
-        dashboard_uuid = result.get('uuid')
-        if not dashboard_uuid:
-            raise RuntimeError(f'UUID introuvable pour le dashboard {dashboard_id}')
+        embedded_uuid = result.get('uuid')
+        if not embedded_uuid:
+            raise RuntimeError(
+                f'UUID embedded introuvable pour le dashboard {dashboard_id}'
+            )
 
-        return str(dashboard_uuid)
+        return str(embedded_uuid)
 
     def get_guest_token(self, dashboard_id: str, username: str, password: str) -> str:
         """Crée un guest token pour l'Embedded SDK."""

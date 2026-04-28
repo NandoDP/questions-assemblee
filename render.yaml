@@ -38,6 +38,8 @@ services:
         value: embed-service@example.com
       - key: SUPERSET_EMBED_ROLE_NAME
         value: EmbeddedService
+      - key: SUPERSET_DASHBOARD_ID
+        value: 1
       - key: REDIS_URL
         value: redis://red-example:6379/0  # Optionnel: ajouter Redis si nécessaire
     healthCheckPath: /health
