@@ -43,7 +43,6 @@ const DashboardEmbed = () => {
         }
 
         embeddedDashboard = instance
-        instance.setThemeMode('default')
       })
       .catch((embedError) => {
         console.error('Erreur embed Superset', embedError)
