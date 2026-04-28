@@ -34,6 +34,7 @@ COPY assign_public_to_datasets.py /app/docker/
 COPY create_guest_user.py /app/docker/
 COPY create_embed_service_user.py /app/docker/
 COPY create_embedded_dashboard_config.py /app/docker/
+COPY fix_regions_chart.py /app/docker/
 
 # Rendre les scripts exécutables
 RUN chmod +x /app/docker/init-superset.sh
@@ -43,6 +44,7 @@ RUN chmod +x /app/docker/assign_public_to_datasets.py
 RUN chmod +x /app/docker/create_guest_user.py
 RUN chmod +x /app/docker/create_embed_service_user.py
 RUN chmod +x /app/docker/create_embedded_dashboard_config.py
+RUN chmod +x /app/docker/fix_regions_chart.py
 
 # Créer les répertoires nécessaires
 RUN mkdir -p /app/superset_home

@@ -48,6 +48,10 @@ python /app/docker/create_embed_service_user.py || echo "⚠️ Échec création
 echo "🧩 Configuration de l'embedded dashboard..."
 python /app/docker/create_embedded_dashboard_config.py || echo "⚠️ Échec configuration embedded dashboard (non bloquant)"
 
+# Réparer le chart régions pour éviter l'agrégation globale sur la carte
+echo "🗺️ Réparation du chart régions..."
+python /app/docker/fix_regions_chart.py || echo "⚠️ Échec réparation chart régions (non bloquant)"
+
 echo "✅ Initialisation terminée"
 
 # Démarrer Superset
