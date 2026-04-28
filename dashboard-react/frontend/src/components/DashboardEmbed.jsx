@@ -1,13 +1,40 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { embedDashboard } from '@superset-ui/embedded-sdk'
 import { fetchSupersetGuestToken } from '../utils/api'
 
+const MOBILE_BREAKPOINT = 768
+const MOBILE_DASHBOARD_ID = Number(import.meta.env.VITE_SUPERSET_MOBILE_DASHBOARD_ID || 1)
+const DESKTOP_DASHBOARD_ID = Number(import.meta.env.VITE_SUPERSET_DESKTOP_DASHBOARD_ID || 3)
+
+const getDashboardIdForViewport = () => {
+  if (typeof window === 'undefined') {
+    return DESKTOP_DASHBOARD_ID
+  }
+
+  return window.innerWidth <= MOBILE_BREAKPOINT ? MOBILE_DASHBOARD_ID : DESKTOP_DASHBOARD_ID
+}
+
 const DashboardEmbed = () => {
   const mountRef = useRef(null)
+  const [dashboardId, setDashboardId] = useState(getDashboardIdForViewport)
+
+  useEffect(() => {
+    const updateDashboardId = () => {
+      setDashboardId(getDashboardIdForViewport())
+    }
+
+    updateDashboardId()
+    window.addEventListener('resize', updateDashboardId)
+
+    return () => {
+      window.removeEventListener('resize', updateDashboardId)
+    }
+  }, [])
+
   const { data, isLoading, error } = useQuery({
-    queryKey: ['superset-guest-token', 1],
-    queryFn: () => fetchSupersetGuestToken(1),
+    queryKey: ['superset-guest-token', dashboardId],
+    queryFn: () => fetchSupersetGuestToken(dashboardId),
     staleTime: 10 * 60 * 1000, // 10 minutes
   })
 
