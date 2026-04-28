@@ -116,10 +116,7 @@ try:
                     "series_limit": 0,
                     "row_limit": params["row_limit"],
                     "url_params": {},
-                    "custom_params": {
-                        "dashboard_id": dashboard_ids[0],
-                        "slice_id": chart.id,
-                    },
+                    "custom_params": {},
                     "custom_form_data": {},
                 }
             ],
