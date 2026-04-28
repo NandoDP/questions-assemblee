@@ -67,14 +67,20 @@ def get_superset_guest_token():
     """
     try:
         dashboard_id = request.args.get('dashboardId', SUPERSET_DASHBOARD_ID)
-        token = superset.get_guest_token(
+        dashboard_uuid = superset.get_dashboard_uuid(
             dashboard_id=dashboard_id,
+            username=SUPERSET_EMBED_USERNAME,
+            password=SUPERSET_EMBED_PASSWORD,
+        )
+        token = superset.get_guest_token(
+            dashboard_id=dashboard_uuid,
             username=SUPERSET_EMBED_USERNAME,
             password=SUPERSET_EMBED_PASSWORD,
         )
         return jsonify({
             'token': token,
             'dashboardId': str(dashboard_id),
+            'dashboardUuid': dashboard_uuid,
             'supersetDomain': SUPERSET_URL,
         })
         

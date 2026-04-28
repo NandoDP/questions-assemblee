@@ -19,7 +19,7 @@ const DashboardEmbed = () => {
     mountRef.current.innerHTML = ''
 
     embedDashboard({
-      id: String(data.dashboardId),
+      id: String(data.dashboardUuid),
       supersetDomain: data.supersetDomain,
       mountPoint: mountRef.current,
       fetchGuestToken: async () => data.token,

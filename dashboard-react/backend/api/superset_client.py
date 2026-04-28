@@ -64,6 +64,20 @@ class SupersetClient:
                 'Referer': self.base_url,
             })
 
+    def get_dashboard_uuid(self, dashboard_id: str, username: str, password: str) -> str:
+        """Résout l'UUID d'un dashboard requis par l'Embedded SDK."""
+        self.ensure_login(username, password)
+
+        response = self.session.get(f'{self.base_url}/api/v1/dashboard/{dashboard_id}')
+        response.raise_for_status()
+
+        result = response.json().get('result', {})
+        dashboard_uuid = result.get('uuid')
+        if not dashboard_uuid:
+            raise RuntimeError(f'UUID introuvable pour le dashboard {dashboard_id}')
+
+        return str(dashboard_uuid)
+
     def get_guest_token(self, dashboard_id: str, username: str, password: str) -> str:
         """Crée un guest token pour l'Embedded SDK."""
         self.ensure_login(username, password)

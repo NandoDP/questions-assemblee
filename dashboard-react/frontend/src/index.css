@@ -49,6 +49,13 @@ body {
   min-height: 80vh;
 }
 
+.dashboard-embed-frame iframe {
+  width: 100%;
+  min-height: 80vh;
+  border: 0;
+  display: block;
+}
+
 .embed-error {
   min-height: 240px;
   display: grid;
@@ -187,6 +194,10 @@ body {
   }
 
   .dashboard-embed-frame {
+    min-height: 72vh;
+  }
+
+  .dashboard-embed-frame iframe {
     min-height: 72vh;
   }
   
