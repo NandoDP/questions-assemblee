@@ -7,11 +7,14 @@ from pathlib import Path
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
+from dotenv import load_dotenv
 from api.superset_client import SupersetClient
 from api.data_transformer import transform_dashboard_data
 
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIST_DIR = BASE_DIR.parent / 'frontend' / 'dist'
+
+load_dotenv(BASE_DIR / '.env')
 
 app = Flask(__name__, static_folder=str(FRONTEND_DIST_DIR), static_url_path='')
 CORS(app)  # Permettre les requêtes depuis React

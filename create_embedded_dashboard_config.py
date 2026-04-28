@@ -1,17 +1,27 @@
 #!/usr/bin/env python3
-"""Crée la configuration embedded pour le dashboard Superset principal."""
+"""Crée la configuration embedded pour les dashboards Superset publies."""
 
 import os
 import sys
 
 os.environ.setdefault('SUPERSET_CONFIG_PATH', '/app/pythonpath/superset_config.py')
 
-DASHBOARD_ID = os.getenv('SUPERSET_DASHBOARD_ID', '1')
+RAW_DASHBOARD_IDS = os.getenv('SUPERSET_PUBLIC_DASHBOARD_IDS', os.getenv('SUPERSET_DASHBOARD_ID', '1'))
 ALLOWED_DOMAINS = [
     domain.strip()
     for domain in os.getenv('SUPERSET_EMBED_ALLOWED_DOMAINS', '').split(',')
     if domain.strip()
 ]
+
+
+def parse_dashboard_ids() -> list[int]:
+    dashboard_ids = []
+    for raw_value in RAW_DASHBOARD_IDS.split(','):
+        value = raw_value.strip()
+        if not value:
+            continue
+        dashboard_ids.append(int(value))
+    return dashboard_ids
 
 
 try:
@@ -25,16 +35,22 @@ try:
         from superset.models.dashboard import Dashboard
         from superset.daos.dashboard import EmbeddedDashboardDAO
 
-        dashboard = db.session.query(Dashboard).filter(Dashboard.id == int(DASHBOARD_ID)).one_or_none()
-        if dashboard is None:
-            print(f'❌ Dashboard introuvable: {DASHBOARD_ID}')
-            sys.exit(1)
+        dashboard_ids = parse_dashboard_ids()
+        if not dashboard_ids:
+            print('⚠️ Aucun dashboard configure pour l\'embed')
+            sys.exit(0)
 
-        embedded = EmbeddedDashboardDAO.upsert(dashboard, ALLOWED_DOMAINS)
-        db.session.commit()
+        for dashboard_id in dashboard_ids:
+            dashboard = db.session.query(Dashboard).filter(Dashboard.id == dashboard_id).one_or_none()
+            if dashboard is None:
+                print(f'⚠️ Dashboard introuvable: {dashboard_id}')
+                continue
 
-        print(f'✅ Embedded dashboard prêt pour {dashboard.id}: {embedded.uuid}')
-        print(f'✅ Domaines autorisés: {embedded.allowed_domains}')
+            embedded = EmbeddedDashboardDAO.upsert(dashboard, ALLOWED_DOMAINS)
+            db.session.commit()
+
+            print(f'✅ Embedded dashboard prêt pour {dashboard.id}: {embedded.uuid}')
+            print(f'✅ Domaines autorisés: {embedded.allowed_domains}')
 
 except Exception as exc:
     print(f'❌ Erreur: {exc}')

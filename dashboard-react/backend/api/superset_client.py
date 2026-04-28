@@ -16,10 +16,15 @@ class SupersetClient:
         self.session = requests.Session()
         self._access_token = None
         self._csrf_token = None
+        self._username = None
+        self._password = None
     
     def login(self, username: str, password: str) -> bool:
         """Authentification Superset"""
         try:
+            self._username = username
+            self._password = password
+            self._csrf_token = None
             response = self.session.post(
                 f'{self.base_url}/api/v1/security/login',
                 json={
@@ -45,6 +50,23 @@ class SupersetClient:
         except Exception as e:
             logger.error(f"Erreur login Superset: {e}")
             return False
+
+    def _reset_auth_state(self) -> None:
+        self._access_token = None
+        self._csrf_token = None
+        self.session.headers.pop('Authorization', None)
+        self.session.headers.pop('X-CSRFToken', None)
+        self.session.headers.pop('Referer', None)
+
+    def _refresh_login(self, username: str = None, password: str = None) -> None:
+        login_username = username or self._username
+        login_password = password or self._password
+        if not login_username or not login_password:
+            raise RuntimeError('Identifiants Superset absents pour rafraichir la session')
+
+        self._reset_auth_state()
+        if not self.login(login_username, login_password):
+            raise RuntimeError('Authentification Superset échouée après expiration de session')
 
     def ensure_login(self, username: str, password: str) -> None:
         """S'assure qu'une session authentifiée est disponible."""
@@ -90,23 +112,37 @@ class SupersetClient:
         self.ensure_login(username, password)
         self._ensure_csrf_token()
 
+        payload = {
+            'user': {
+                'username': 'embedded_guest',
+                'first_name': 'Embedded',
+                'last_name': 'Guest'
+            },
+            'resources': [
+                {
+                    'type': 'dashboard',
+                    'id': str(dashboard_id)
+                }
+            ],
+            'rls': []
+        }
+
         response = self.session.post(
             f'{self.base_url}/api/v1/security/guest_token/',
-            json={
-                'user': {
-                    'username': 'embedded_guest',
-                    'first_name': 'Embedded',
-                    'last_name': 'Guest'
-                },
-                'resources': [
-                    {
-                        'type': 'dashboard',
-                        'id': str(dashboard_id)
-                    }
-                ],
-                'rls': []
-            }
+            json=payload
         )
+        if response.status_code in {400, 401}:
+            logger.info(
+                'Session Superset invalide ou CSRF expiré, nouvelle authentification avant guest_token '
+                f'(status {response.status_code})'
+            )
+            self._refresh_login(username, password)
+            self._ensure_csrf_token()
+            response = self.session.post(
+                f'{self.base_url}/api/v1/security/guest_token/',
+                json=payload
+            )
+
         response.raise_for_status()
         token = response.json().get('token')
         if not token:
