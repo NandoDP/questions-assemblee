@@ -7,6 +7,31 @@ Usage: python configure_public_role.py
 import sys
 import os
 
+
+SAFE_PUBLIC_PERMISSIONS = {
+    ("can_explore", "Superset"),
+    ("can_explore_json", "Superset"),
+    ("can_read", "Explore"),
+    ("can_read", "ExplorePermalinkRestApi"),
+}
+
+
+def is_dangerous_permission(permission) -> bool:
+    permission_name = getattr(permission.permission, "name", "")
+    view_name = getattr(permission.view_menu, "name", "")
+    permission_key = (permission_name, view_name)
+
+    if permission_key in SAFE_PUBLIC_PERMISSIONS:
+        return False
+
+    dangerous_keywords = [
+        'write', 'edit', 'delete', 'add', 'create',
+        'sql', 'export', 'csv', 'download',
+        'save', 'import', 'upload', 'samples', 'get_data'
+    ]
+    permission_label = str(permission).lower()
+    return any(keyword in permission_label for keyword in dangerous_keywords)
+
 # Configurer l'environnement Superset
 os.environ.setdefault('SUPERSET_CONFIG_PATH', '/app/pythonpath/superset_config.py')
 
@@ -28,18 +53,10 @@ try:
         
         print(f"✓ Rôle Public trouvé avec {len(public_role.permissions)} permissions")
         
-        # Permissions dangereuses à supprimer
-        dangerous_keywords = [
-            'write', 'edit', 'delete', 'add', 'create',
-            'explore', 'sql', 'export', 'csv', 'download',
-            'save', 'import', 'upload', 'samples', 'get_data'
-        ]
-        
         # Supprimer toutes les permissions dangereuses
         removed = 0
         for perm in list(public_role.permissions):
-            perm_str = str(perm).lower()
-            if any(keyword in perm_str for keyword in dangerous_keywords):
+            if is_dangerous_permission(perm):
                 public_role.permissions.remove(perm)
                 removed += 1
         
@@ -59,6 +76,10 @@ try:
             ("can_read", "DashboardPermalinkRestApi"),
             ("can_read", "DashboardFilterStateRestApi"),
             ("can_write", "DashboardFilterStateRestApi"),
+            ("can_explore", "Superset"),
+            ("can_explore_json", "Superset"),
+            ("can_read", "Explore"),
+            ("can_read", "ExplorePermalinkRestApi"),
             ("menu_access", "Dashboards"),
         ]
         
@@ -82,11 +103,9 @@ try:
         # Vérification finale
         has_dangerous = False
         for perm in public_role.permissions:
-            perm_str = str(perm).lower()
-            for keyword in dangerous_keywords:
-                if keyword in perm_str:
-                    print(f"  ⚠️  ATTENTION: Permission dangereuse restante: {perm}")
-                    has_dangerous = True
+            if is_dangerous_permission(perm):
+                print(f"  ⚠️  ATTENTION: Permission dangereuse restante: {perm}")
+                has_dangerous = True
         
         if not has_dangerous:
             print("\n✅ Aucune permission dangereuse détectée. Rôle Public sécurisé!")
