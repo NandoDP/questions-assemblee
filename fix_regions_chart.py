@@ -14,6 +14,11 @@ os.environ.setdefault("SUPERSET_CONFIG_PATH", "/app/pythonpath/superset_config.p
 
 CHART_ID = int(os.getenv("SUPERSET_REGIONS_CHART_ID", "1"))
 DATASET_ID = int(os.getenv("SUPERSET_REGIONS_DATASET_ID", "2"))
+PUBLIC_DASHBOARD_IDS = [
+    int(value.strip())
+    for value in os.getenv("SUPERSET_PUBLIC_DASHBOARD_IDS", "1,3").split(",")
+    if value.strip()
+]
 
 DATASET_SQL = """
 SELECT
@@ -79,10 +84,13 @@ try:
 
         params = json.loads(chart.params or "{}")
         metric = params.get("metric") or default_metric()
+        dashboard_ids = params.get("dashboards") or PUBLIC_DASHBOARD_IDS
+        dashboard_ids = [int(dashboard_id) for dashboard_id in dashboard_ids]
 
         params.update(
             {
                 "datasource": f"{dataset.id}__table",
+                "slice_id": chart.id,
                 "viz_type": "country_map",
                 "select_country": "senegal",
                 "entity": "code_region",
@@ -90,7 +98,7 @@ try:
                 "row_limit": 50000,
                 "adhoc_filters": params.get("adhoc_filters", []),
                 "extra_form_data": params.get("extra_form_data", {}),
-                "dashboards": params.get("dashboards", []),
+                "dashboards": dashboard_ids,
             }
         )
 
@@ -108,12 +116,17 @@ try:
                     "series_limit": 0,
                     "row_limit": params["row_limit"],
                     "url_params": {},
-                    "custom_params": {},
+                    "custom_params": {
+                        "dashboard_id": dashboard_ids[0],
+                        "slice_id": chart.id,
+                    },
                     "custom_form_data": {},
                 }
             ],
             "form_data": {
                 **params,
+                "slice_id": chart.id,
+                "dashboards": dashboard_ids,
                 "force": False,
                 "result_format": "json",
                 "result_type": "full",
