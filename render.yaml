@@ -40,6 +40,10 @@ services:
         value: EmbeddedService
       - key: SUPERSET_DASHBOARD_ID
         value: 1
+      - key: SUPERSET_PUBLIC_DASHBOARD_IDS
+        value: 1,3
+      - key: SUPERSET_EMBED_ALLOWED_DOMAINS
+        value: https://questions-assemblee-dashboard.onrender.com
       - key: REDIS_URL
         value: redis://red-example:6379/0  # Optionnel: ajouter Redis si nécessaire
     healthCheckPath: /health

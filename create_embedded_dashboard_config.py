@@ -3,18 +3,33 @@
 
 import os
 import sys
+from urllib.parse import urlparse
 
 os.environ.setdefault('SUPERSET_CONFIG_PATH', '/app/pythonpath/superset_config.py')
 
-RAW_DASHBOARD_IDS = os.getenv('SUPERSET_PUBLIC_DASHBOARD_IDS', os.getenv('SUPERSET_DASHBOARD_ID', '1'))
+RAW_DASHBOARD_IDS = os.getenv('SUPERSET_PUBLIC_DASHBOARD_IDS', '').strip()
+
+
+def normalize_domain(domain: str) -> str:
+    value = domain.strip()
+    if not value:
+        return ''
+    if '://' not in value:
+        value = f'https://{value}'
+    parsed = urlparse(value)
+    return parsed.scheme + '://' + parsed.netloc
+
+
 ALLOWED_DOMAINS = [
-    domain.strip()
+    normalize_domain(domain)
     for domain in os.getenv('SUPERSET_EMBED_ALLOWED_DOMAINS', '').split(',')
-    if domain.strip()
+    if normalize_domain(domain)
 ]
 
 
 def parse_dashboard_ids() -> list[int]:
+    if not RAW_DASHBOARD_IDS:
+        return []
     dashboard_ids = []
     for raw_value in RAW_DASHBOARD_IDS.split(','):
         value = raw_value.strip()
@@ -36,16 +51,16 @@ try:
         from superset.daos.dashboard import EmbeddedDashboardDAO
 
         dashboard_ids = parse_dashboard_ids()
-        if not dashboard_ids:
-            print('⚠️ Aucun dashboard configure pour l\'embed')
+        if dashboard_ids:
+            dashboards = db.session.query(Dashboard).filter(Dashboard.id.in_(dashboard_ids)).all()
+        else:
+            dashboards = db.session.query(Dashboard).filter(Dashboard.published.is_(True)).all()
+
+        if not dashboards:
+            print('⚠️ Aucun dashboard publie a configurer pour l\'embed')
             sys.exit(0)
 
-        for dashboard_id in dashboard_ids:
-            dashboard = db.session.query(Dashboard).filter(Dashboard.id == dashboard_id).one_or_none()
-            if dashboard is None:
-                print(f'⚠️ Dashboard introuvable: {dashboard_id}')
-                continue
-
+        for dashboard in dashboards:
             embedded = EmbeddedDashboardDAO.upsert(dashboard, ALLOWED_DOMAINS)
             db.session.commit()
 

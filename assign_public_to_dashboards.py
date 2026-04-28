@@ -8,7 +8,9 @@ os.environ.setdefault('SUPERSET_CONFIG_PATH', '/app/pythonpath/superset_config.p
 
 
 def parse_dashboard_ids() -> list[int]:
-    raw_ids = os.getenv('SUPERSET_PUBLIC_DASHBOARD_IDS', os.getenv('SUPERSET_DASHBOARD_ID', '1'))
+    raw_ids = os.getenv('SUPERSET_PUBLIC_DASHBOARD_IDS', '').strip()
+    if not raw_ids:
+        return []
     dashboard_ids = []
     for raw_value in raw_ids.split(','):
         value = raw_value.strip()
@@ -37,12 +39,18 @@ try:
             print('❌ Role Public introuvable')
             sys.exit(1)
 
+        dashboard_ids = parse_dashboard_ids()
+        if dashboard_ids:
+            dashboards = db.session.query(Dashboard).filter(Dashboard.id.in_(dashboard_ids)).all()
+        else:
+            dashboards = db.session.query(Dashboard).filter(Dashboard.published.is_(True)).all()
+
+        if not dashboards:
+            print('⚠️ Aucun dashboard publie a partager avec Public')
+            sys.exit(0)
+
         updated = 0
-        for dashboard_id in parse_dashboard_ids():
-            dashboard = db.session.query(Dashboard).filter(Dashboard.id == dashboard_id).one_or_none()
-            if dashboard is None:
-                print(f'⚠️ Dashboard introuvable: {dashboard_id}')
-                continue
+        for dashboard in dashboards:
 
             if public_role not in dashboard.roles:
                 dashboard.roles.append(public_role)
