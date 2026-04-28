@@ -6,7 +6,7 @@
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: #f5f5f5;
+  background: #ffffff;
   color: #2d3748;
   min-height: 100vh;
 }
@@ -19,6 +19,10 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.app-embed-mode {
+  background: #ffffff;
 }
 
 .app-header {
@@ -52,6 +56,13 @@ body {
   width: 100%;
 }
 
+.app-main-embed {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
 .dashboard-embed-shell {
   background: white;
   border-radius: 16px;
@@ -64,11 +75,23 @@ body {
   min-height: 80vh;
 }
 
+.dashboard-embed-frame-fullscreen {
+  width: 100vw;
+  min-height: 100vh;
+}
+
 .dashboard-embed-frame iframe {
   width: 100%;
   min-height: 80vh;
   border: 0;
   display: block;
+}
+
+.dashboard-embed-frame-fullscreen iframe {
+  width: 100vw;
+  min-height: 100vh;
+  border-radius: 0;
+  background: #ffffff;
 }
 
 .embed-error {
@@ -226,6 +249,16 @@ body {
     border-radius: 12px;
     background: white;
   }
+
+  .app-main-embed,
+  .dashboard-embed-frame-fullscreen,
+  .dashboard-embed-frame-fullscreen iframe {
+    min-height: 100vh;
+  }
+
+  .dashboard-embed-frame-fullscreen iframe {
+    border-radius: 0;
+  }
   
   .kpi-grid {
     grid-template-columns: 1fr;
@@ -282,6 +315,11 @@ body {
   .dashboard-embed-frame iframe {
     min-height: calc(100vh - 170px);
     border-radius: 10px;
+  }
+
+  .dashboard-embed-frame-fullscreen iframe {
+    min-height: 100vh;
+    border-radius: 0;
   }
 }
 

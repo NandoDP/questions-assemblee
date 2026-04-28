@@ -1,5 +1,18 @@
 import os
 
+# Forcer un thème clair unique dans Superset, y compris pour les dashboards embarqués.
+THEME_DEFAULT = {
+    "algorithm": "default",
+    "token": {
+        "colorBgBase": "#ffffff",
+        "colorBgContainer": "#ffffff",
+        "colorText": "#1f2937",
+        "colorPrimary": "#1d4ed8",
+    },
+}
+THEME_DARK = None
+ENABLE_UI_THEME_ADMINISTRATION = False
+
 # Configuration de la base de données
 SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql://user:pass@localhost:5432/superset')
 
