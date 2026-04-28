@@ -1,15 +1,19 @@
 """
-API Flask pour servir les données du dashboard
-Proxy vers Superset avec optimisations mobile
+API Flask pour servir les données du dashboard.
+Sert aussi le build React en production sur Render.
 """
 
-from flask import Flask, jsonify, request
+from pathlib import Path
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
 from api.superset_client import SupersetClient
 from api.data_transformer import transform_dashboard_data
 
-app = Flask(__name__)
+BASE_DIR = Path(__file__).resolve().parent
+FRONTEND_DIST_DIR = BASE_DIR.parent / 'frontend' / 'dist'
+
+app = Flask(__name__, static_folder=str(FRONTEND_DIST_DIR), static_url_path='')
 CORS(app)  # Permettre les requêtes depuis React
 
 # Configuration
@@ -23,9 +27,38 @@ SUPERSET_DASHBOARD_ID = os.getenv('SUPERSET_DASHBOARD_ID', '1')
 superset = SupersetClient(SUPERSET_URL)
 
 @app.route('/api/health')
+@app.route('/health')
 def health():
     """Health check"""
     return jsonify({'status': 'ok', 'service': 'dashboard-api'})
+
+
+@app.route('/')
+def serve_index():
+    """Sert l'application React compilée."""
+    if FRONTEND_DIST_DIR.exists():
+        return send_from_directory(app.static_folder, 'index.html')
+
+    return jsonify({
+        'error': 'Frontend build not found',
+        'expectedPath': str(FRONTEND_DIST_DIR),
+    }), 503
+
+
+@app.route('/<path:path>')
+def serve_frontend_assets(path):
+    """Sert les assets Vite ou repasse sur index.html pour les routes SPA."""
+    if not FRONTEND_DIST_DIR.exists():
+        return jsonify({
+            'error': 'Frontend build not found',
+            'expectedPath': str(FRONTEND_DIST_DIR),
+        }), 503
+
+    asset_path = FRONTEND_DIST_DIR / path
+    if asset_path.exists() and asset_path.is_file():
+        return send_from_directory(app.static_folder, path)
+
+    return send_from_directory(app.static_folder, 'index.html')
 
 @app.route('/api/superset/guest-token')
 def get_superset_guest_token():

@@ -1,12 +1,27 @@
+FROM node:20-slim AS frontend-build
+
+WORKDIR /frontend
+
+COPY dashboard-react/frontend/package*.json ./
+RUN npm ci
+
+COPY dashboard-react/frontend/ ./
+RUN npm run build
+
+
 FROM python:3.10-slim
 
-WORKDIR /app
+WORKDIR /app/dashboard-react/backend
 
 # Installer les dépendances
-RUN pip install --no-cache-dir flask gunicorn python-dotenv
+COPY dashboard-react/backend/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copier l'application
-COPY app.py .
+# Copier l'application backend
+COPY dashboard-react/backend/ ./
+
+# Copier le build frontend
+COPY --from=frontend-build /frontend/dist ../frontend/dist
 
 # Exposer le port (Render utilise la variable PORT)
 EXPOSE 5000

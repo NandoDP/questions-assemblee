@@ -60,7 +60,7 @@ services:
         value: 1
       - key: FLASK_SECRET_KEY
         generateValue: true
-    healthCheckPath: /
+    healthCheckPath: /health
 
 # Note: Le pipeline ETL s'exécute via GitHub Actions, pas sur Render
 # Pour exécuter l'ETL manuellement, créer un Background Worker séparé
