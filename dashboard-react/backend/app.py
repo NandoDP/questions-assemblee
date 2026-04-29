@@ -10,6 +10,7 @@ import os
 from dotenv import load_dotenv
 from api.superset_client import SupersetClient
 from api.data_transformer import transform_dashboard_data
+from requests import RequestException
 
 BASE_DIR = Path(__file__).resolve().parent
 FRONTEND_DIST_DIR = BASE_DIR.parent / 'frontend' / 'dist'
@@ -89,7 +90,11 @@ def get_superset_guest_token():
         
     except Exception as e:
         app.logger.error(f"Erreur génération guest token: {e}")
-        return jsonify({'error': str(e)}), 500
+        status_code = 504 if isinstance(e, RequestException) else 500
+        return jsonify({
+            'error': str(e),
+            'status': 'superset_unavailable' if status_code == 504 else 'internal_error',
+        }), status_code
 
 @app.route('/api/dashboard/<int:dashboard_id>/data')
 def get_dashboard_data(dashboard_id):
@@ -122,7 +127,8 @@ def get_dashboard_data(dashboard_id):
         app.logger.error(f"Erreur récupération dashboard: {e}")
         import traceback
         traceback.print_exc()
-        return jsonify({'error': str(e)}), 500
+        status_code = 504 if isinstance(e, RequestException) else 500
+        return jsonify({'error': str(e)}), status_code
 
 @app.route('/api/charts/<int:chart_id>/data')
 def get_chart_data(chart_id):
@@ -133,7 +139,8 @@ def get_chart_data(chart_id):
         data = superset.get_chart_data(chart_id)
         return jsonify(data)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        status_code = 504 if isinstance(e, RequestException) else 500
+        return jsonify({'error': str(e)}), status_code
 
 @app.route('/api/kpis')
 def get_kpis():
@@ -144,7 +151,8 @@ def get_kpis():
         kpis = superset.get_kpis()
         return jsonify(kpis)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        status_code = 504 if isinstance(e, RequestException) else 500
+        return jsonify({'error': str(e)}), status_code
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5001))

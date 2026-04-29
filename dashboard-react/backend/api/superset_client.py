@@ -7,8 +7,11 @@ import requests
 from typing import Dict, Any
 import logging
 from requests import HTTPError
+from requests import RequestException
 
 logger = logging.getLogger(__name__)
+
+DEFAULT_REQUEST_TIMEOUT_SECONDS = 25
 
 class SupersetClient:
     def __init__(self, base_url: str):
@@ -18,6 +21,7 @@ class SupersetClient:
         self._csrf_token = None
         self._username = None
         self._password = None
+        self._request_timeout = DEFAULT_REQUEST_TIMEOUT_SECONDS
     
     def login(self, username: str, password: str) -> bool:
         """Authentification Superset"""
@@ -32,7 +36,8 @@ class SupersetClient:
                     'password': password,
                     'provider': 'db',
                     'refresh': True
-                }
+                },
+                timeout=self._request_timeout,
             )
             response.raise_for_status()
             
@@ -77,7 +82,10 @@ class SupersetClient:
 
     def _load_csrf_token(self) -> None:
         """Charge le token CSRF requis par certaines API Superset."""
-        response = self.session.get(f'{self.base_url}/api/v1/security/csrf_token/')
+        response = self.session.get(
+            f'{self.base_url}/api/v1/security/csrf_token/',
+            timeout=self._request_timeout,
+        )
         response.raise_for_status()
         self._csrf_token = response.json().get('result')
         if self._csrf_token:
@@ -90,7 +98,10 @@ class SupersetClient:
         """Résout l'UUID de configuration embedded requis par l'Embedded SDK."""
         self.ensure_login(username, password)
 
-        response = self.session.get(f'{self.base_url}/api/v1/dashboard/{dashboard_id}/embedded')
+        response = self.session.get(
+            f'{self.base_url}/api/v1/dashboard/{dashboard_id}/embedded',
+            timeout=self._request_timeout,
+        )
         if response.status_code == 404:
             raise RuntimeError(
                 f'La configuration embedded du dashboard {dashboard_id} est absente dans Superset. '
@@ -129,7 +140,8 @@ class SupersetClient:
 
         response = self.session.post(
             f'{self.base_url}/api/v1/security/guest_token/',
-            json=payload
+            json=payload,
+            timeout=self._request_timeout,
         )
         if response.status_code in {400, 401}:
             logger.info(
@@ -140,7 +152,8 @@ class SupersetClient:
             self._ensure_csrf_token()
             response = self.session.post(
                 f'{self.base_url}/api/v1/security/guest_token/',
-                json=payload
+                json=payload,
+                timeout=self._request_timeout,
             )
 
         response.raise_for_status()
@@ -173,7 +186,8 @@ class SupersetClient:
         try:
             # Récupérer les métadonnées du dashboard
             dashboard_response = self.session.get(
-                f'{self.base_url}/api/v1/dashboard/{dashboard_id}'
+                f'{self.base_url}/api/v1/dashboard/{dashboard_id}',
+                timeout=self._request_timeout,
             )
             dashboard_response.raise_for_status()
             dashboard = dashboard_response.json()
@@ -218,13 +232,18 @@ class SupersetClient:
         """Récupère les données d'un chart spécifique"""
         try:
             response = self.session.get(
-                f'{self.base_url}/api/v1/chart/{chart_id}/data'
+                f'{self.base_url}/api/v1/chart/{chart_id}/data',
+                timeout=self._request_timeout,
             )
             response.raise_for_status()
             return response.json()
         except Exception as e:
             logger.error(f"Erreur récupération chart {chart_id}: {e}")
             return {}
+
+    @staticmethod
+    def is_upstream_timeout(error: Exception) -> bool:
+        return isinstance(error, RequestException)
     
     def get_kpis(self) -> Dict[str, Any]:
         """
