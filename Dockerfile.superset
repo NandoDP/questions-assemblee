@@ -27,15 +27,15 @@ RUN set -eux; \
 
 # Copier la configuration personnalisée
 COPY superset_config.py /app/pythonpath/
-COPY init-superset.sh /app/docker/
-COPY superset_readonly_public.sh /app/docker/
-COPY configure_public_role.py /app/docker/
-COPY assign_public_to_datasets.py /app/docker/
-COPY assign_public_to_dashboards.py /app/docker/
-COPY create_guest_user.py /app/docker/
-COPY create_embed_service_user.py /app/docker/
-COPY create_embedded_dashboard_config.py /app/docker/
-COPY fix_regions_chart.py /app/docker/
+COPY scripts/superset/init-superset.sh /app/docker/
+COPY scripts/superset/superset_readonly_public.sh /app/docker/
+COPY scripts/superset/configure_public_role.py /app/docker/
+COPY scripts/superset/assign_public_to_datasets.py /app/docker/
+COPY scripts/superset/assign_public_to_dashboards.py /app/docker/
+COPY scripts/superset/create_guest_user.py /app/docker/
+COPY scripts/superset/create_embed_service_user.py /app/docker/
+COPY scripts/superset/create_embedded_dashboard_config.py /app/docker/
+COPY scripts/superset/fix_regions_chart.py /app/docker/
 
 # Rendre les scripts exécutables
 RUN chmod +x /app/docker/init-superset.sh

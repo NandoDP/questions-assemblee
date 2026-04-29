@@ -8,13 +8,13 @@ RUN pip install https://github.com/explosion/spacy-models/releases/download/fr_c
 
 # Copie du code source
 COPY src/ ./src/
-COPY download_model.py .
+COPY scripts/ml/download_model.py ./scripts/ml/download_model.py
 
 # Copie des modèles (sauf model.safetensors qui est trop volumineux)
 COPY models/ ./models/
 
 # Option 1 : Télécharger le modèle au build (si hébergé sur HuggingFace)
-RUN python download_model.py
+RUN python scripts/ml/download_model.py
 
 # Option 2 : Monter le modèle comme volume au runtime
 # Voir docker-compose.yml ou utiliser: docker run -v ./models:/app/models

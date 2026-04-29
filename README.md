@@ -1,282 +1,214 @@
-# 📊 Questions Parlementaires - Analyse & Dashboard
+# Questions Parlementaires
 
-[![ETL Pipeline](https://github.com/NandoDP/questions-assemblee/actions/workflows/cron_etl.yml/badge.svg)](https://github.com/NandoDP/questions-assemblee/actions/workflows/cron_etl.yml)
-[![CI](https://github.com/NandoDP/questions-assemblee/actions/workflows/ci.yml/badge.svg)](https://github.com/NandoDP/questions-assemblee/actions/workflows/ci.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+Système d'analyse automatisée des questions parlementaires publiées sur [vie-publique.sn](https://www.vie-publique.sn/assemblee-nationale/questions), avec enrichissement NLP, stockage structuré et visualisation publique en lecture seule.
 
-> Système automatisé d'analyse et de visualisation des questions parlementaires françaises avec classification ML et dashboard BI interactif.
+Le projet transforme une source web institutionnelle en un dispositif de suivi exploitable par un lecteur non technique: activité parlementaire, ministères les plus sollicités, thématiques dominantes, couverture territoriale et qualité de réponse gouvernementale.
 
-⚠️ **Note importante** : Le modèle CamemBERT (422 MB) n'est pas inclus dans ce dépôt. Voir [models/camembert_model/README.md](models/camembert_model/README.md) pour les instructions de téléchargement.
+## Vue d'Ensemble
 
----
+- Source: questions publiées sur `vie-publique.sn`
+- Pipeline: extraction, validation, enrichissement, chargement PostgreSQL
+- Intelligence: classification thématique avec CamemBERT
+- Restitution: dashboard public embarqué via Superset
+- Déploiement: Render + GitHub Actions
 
-## 🎯 Objectif
+## Objectif Produit
 
-Ce projet collecte, analyse et visualise automatiquement les questions parlementaires de l'Assemblée Nationale Sénégalaise (XIVe législature). Il utilise un modèle de Machine Learning (CamemBERT) pour classifier les questions par thématique et génère des insights via un dashboard Apache Superset.
+L'objectif n'est pas seulement de stocker des données, mais de produire un outil de lecture augmentée de l'activité parlementaire.
 
-**Cas d'usage** :
-- 📈 Suivi de l'activité parlementaire en temps réel
-- 🔍 Analyse des sujets prioritaires par ministère
-- 📊 Visualisation des délais de réponse gouvernementaux
-- 🗺️ Cartographie des questions par région/département
-- 🤖 Classification automatique des thématiques (ML)
+Le système permet de:
+- suivre le volume et l'évolution des questions parlementaires,
+- identifier les ministères et sujets les plus sollicités,
+- visualiser les écarts de réponse,
+- lire les dynamiques régionales,
+- rendre les données compréhensibles à travers une interface publique simple.
 
----
+## Architecture
 
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                     GitHub Repository                        │
-│                  (questions-assemblee)                       │
-└───────────┬──────────────────────────────┬──────────────────┘
-            │                              │
-            │ GitHub Actions (ETL Cron)    │
-            │ ↓ Tous les jours à 2h        │
-            │                              │
-            ↓                              ↓
-┌───────────────────────┐      ┌──────────────────────────┐
-│   PostgreSQL (Render) │◄────►│  Superset (Web Service)  │
-│   - questions         │      │  - Dashboard BI          │
-│   - deputes          │      │  - Charts & Metrics       │
-│   - ministeres       │      └──────────┬───────────────┘
-└───────────────────────┘                 │ iframe embed
-                                          ↓
-                               ┌──────────────────────────┐
-                               │  Flask App (Web Service) │
-                               │  - Dashboard Public      │
-                               │  - Lecture seule         │
-                               └──────────────────────────┘
+```text
+vie-publique.sn
+    -> extracteurs Python async
+    -> normalisation / validation
+    -> enrichissement NLP / classification ML
+    -> PostgreSQL
+    -> Apache Superset
+    -> Flask + React (embed public)
 ```
 
-### **Composants**
+## Résultats Obtenus
 
-| Composant | Technologie | Hébergement | Rôle |
-|-----------|-------------|-------------|------|
-| **ETL Pipeline** | Python + asyncio | GitHub Actions | Extraction, transformation, classification ML |
-| **Base de données** | PostgreSQL 15 | Render (Free) | Stockage des données structurées |
-| **Dashboard BI** | Apache Superset | Render (Docker) | Création et visualisation des métriques |
-| **Interface publique** | Flask | Render (Docker) | Dashboard public en lecture seule |
-| **Classification ML** | CamemBERT (BERT FR) | Local / HuggingFace | Classification thématique des questions |
+- Plus de 250 questions parlementaires intégrées
+- 165 députés suivis
+- 26 ministères couverts
+- 12+ thématiques principales classifiées
+- Couverture géographique sur 13 régions sur 14
 
----
+## Choix Technologiques et Alternatives
 
-## 📈 Résultats
+### Python pour l'ETL
 
-**Données collectées** :
-- ✅ 250+ questions parlementaires analysées
-- ✅ 165 députés suivis
-- ✅ 26 ministères couverts
-- ✅ Classification en 12+ thématiques principales
+Choix retenu: `Python`
 
-**Métriques clés** :
-- 📊 Nombre de députés actifs : 33
-- 📈 Taux de réponse : < 2%
-- 🏆 Top 3 thématiques : Santé, Éducation, Culture
-- 🗺️ Couverture géographique : 13/14 régions
+Pourquoi:
+- excellent écosystème pour scraping, data engineering et NLP dans un même langage,
+- très bon compromis entre vitesse de développement et lisibilité,
+- intégration directe avec `Transformers`, `spaCy`, `Pydantic` et PostgreSQL.
 
----
+Alternatives courantes:
+- `Node.js`: bon pour l'I/O, moins naturel ici pour la partie NLP/ML,
+- `Java`: robuste mais surdimensionné pour un prototype analytique rapide,
+- `Airbyte` ou `Talend`: adaptés aux connecteurs standard, moins souples pour une logique métier sur mesure.
 
-## 🚀 Déploiement
+Pourquoi c'était pertinent pour `vie-publique.sn`:
+- la source nécessite une extraction et une transformation métier spécifiques,
+- il fallait unifier scraping, nettoyage textuel, classification et chargement DB dans une seule chaîne simple.
 
-### **🌐 Dashboard Public**
+### asyncio plutôt qu'un ETL synchrone
 
-👉 **[Voir le dashboard en ligne](https://questions-assemblee-dashboard.onrender.com)**
+Choix retenu: `asyncio` / requêtes asynchrones
 
-Le dashboard est accessible publiquement en **lecture seule**. Aucun téléchargement de données brutes n'est possible pour les visiteurs.
+Pourquoi:
+- réduit le temps d'extraction sur une source web avec latence réseau,
+- garde le pipeline léger sans nécessiter une infra lourde.
 
-### **⚡ Démarrage Rapide (Local)**
+Alternatives courantes:
+- script synchrone `requests`: plus simple mais moins performant si le volume augmente,
+- `Spark`: trop lourd pour ce volume et ce contexte,
+- `Airflow`: très bon orchestrateur, mais trop coûteux en complexité pour un cas d'usage encore compact.
 
-```bash
-# Cloner le repo
-git clone https://github.com/NandoDP/questions-assemblee.git
-cd questions-assemblee
+Pourquoi c'était pertinent pour `vie-publique.sn`:
+- la contrainte principale est l'attente réseau, pas le calcul distribué.
 
-# Démarrer avec Docker Compose
-docker-compose up -d
+### PostgreSQL plutôt que MongoDB ou fichiers plats
 
-# Accéder aux services
-open http://localhost:5000  # Dashboard public
-open http://localhost:8088  # Superset admin (admin/admin123)
-```
+Choix retenu: `PostgreSQL`
 
-## 🛠️ Stack Technique
+Pourquoi:
+- modèle relationnel adapté aux entités du domaine: questions, députés, ministères, régions,
+- requêtes analytiques et vues SQL faciles à exposer à Superset,
+- bon équilibre entre simplicité, robustesse et coût.
 
-### **Backend & ETL**
-- **Python 3.10** - Langage principal
-- **asyncio / aiohttp** - Requêtes asynchrones API
-- **asyncpg** - PostgreSQL async driver
-- **Pydantic** - Validation des données
-- **SQLAlchemy** - ORM
+Alternatives courantes:
+- `MongoDB`: flexible mais moins naturel pour les jointures analytiques et la BI,
+- `MySQL`: viable, mais PostgreSQL offre en pratique un meilleur confort pour requêtes analytiques et extensions,
+- fichiers CSV/Parquet seuls: utiles en stockage intermédiaire, insuffisants pour un service BI vivant.
 
-### **Machine Learning**
-- **CamemBERT** (camembert-base) - Modèle BERT français
-- **Transformers (HuggingFace)** - Framework ML
-- **SpaCy** - NLP (entités nommées, lemmatisation)
-- **Torch** - Deep Learning
+Pourquoi c'était pertinent pour `vie-publique.sn`:
+- les données publiées doivent être restructurées et croisées pour produire des indicateurs fiables.
 
-### **Visualisation**
-- **Apache Superset** - Dashboard BI
-- **Flask** - Interface web publique
-- **PostgreSQL 15** - Base de données
+### CamemBERT plutôt que TF-IDF ou un modèle généraliste
 
-### **DevOps & CI/CD**
-- **Docker** - Conteneurisation
-- **GitHub Actions** - ETL automatisé (cron)
-- **Render** - Hébergement cloud
-- **Git LFS / HuggingFace Hub** - Gestion modèles ML
+Choix retenu: `CamemBERT`
 
----
+Pourquoi:
+- modèle francophone pertinent pour des textes parlementaires en français,
+- meilleure compréhension sémantique qu'une approche purement lexicale,
+- classification plus robuste sur des formulations administratives et politiques.
 
-## 📊 Visualisations
+Alternatives courantes:
+- `TF-IDF + Logistic Regression`: plus léger, mais moins précis sur la sémantique,
+- `mBERT`: plus généraliste, moins spécialisé pour le français,
+- `GPT API`: puissant mais plus coûteux, moins contrôlable, et moins adapté à une classification batch stable.
 
-### **Exemples de dashboards disponibles** :
+Pourquoi c'était pertinent pour `vie-publique.sn`:
+- les questions parlementaires utilisent un langage formel, souvent ambigu si l'on se limite aux mots-clés.
 
-La plateforme de visualisation offre plusieurs types de graphiques et tableaux de bord pour exploiter les données collectées :
+### Superset plutôt que Power BI, Tableau ou dashboards maison
 
-#### **Métriques de performance parlementaire**
+Choix retenu: `Apache Superset`
 
-* **Indicateurs KPI** : Affichage des métriques clés (nombre total de questions, taux de réponse global, nombre de députés actifs) sous forme de cartes numériques pour un suivi rapide des performances.  
-* **Évolution temporelle** : Graphiques en barres et courbes montrant l'évolution mensuelle du nombre de questions et de réponses, permettant d'identifier les périodes de forte activité parlementaire.
+Pourquoi:
+- open source,
+- connecté nativement à PostgreSQL,
+- très rapide pour construire des dashboards analytiques sans recréer toute une couche de visualisation,
+- facile à embarquer dans un site public.
 
-#### **Analyses thématiques**
+Alternatives courantes:
+- `Power BI`: très connu mais moins naturel pour une intégration web publique open source,
+- `Tableau`: excellent, mais plus coûteux et moins aligné avec un déploiement léger indépendant,
+- `React + Recharts/ECharts` uniquement: plus flexible visuellement, mais demande de reconstruire toute la couche BI.
 
-* **Répartition par secteur** : Graphiques en secteurs (camembert) illustrant la distribution des questions par domaine (santé, éducation, économie, etc.), révélant les préoccupations prioritaires des députés.  
-* **Nuage de mots-clés** : Visualisation des termes les plus fréquents dans les questions, facilitant l'identification des sujets récurrents et des tendances émergentes.
+Pourquoi c'était pertinent pour `vie-publique.sn`:
+- le besoin prioritaire était d'aller vite vers une restitution analytique crédible, pas de développer un front BI sur mesure dès le départ.
 
-#### **Suivi de l'activité des députés**
+### Flask + React pour l'interface publique plutôt qu'un simple lien Superset
 
-* **Classement des plus actifs** : Tableaux de bord avec ranking des députés par nombre de questions posées et taux de réponse, permettant d'évaluer l'engagement parlementaire.  
-* **Analyse par groupe parlementaire** : Graphiques comparatifs de l'activité par parti politique ou coalition.
+Choix retenu: `Flask` pour l'API d'intégration et `React` pour l'expérience publique
 
-#### **Dimension géographique**
+Pourquoi:
+- contrôle fin de l'authentification embed Superset,
+- possibilité d'exposer un site propre, en lecture seule, découplé de l'interface d'administration Superset,
+- adaptation mobile et choix d'affichage selon le contexte.
 
-* **Cartographie interactive** : Cartes choroplèthes du Sénégal montrant la répartition géographique des questions par région ou département, identifiant les zones les plus représentées dans les débats parlementaires.  
-* **Heatmaps régionales** : Visualisation de l'intensité des préoccupations par zone géographique.
+Alternatives courantes:
+- exposer Superset directement: plus rapide, mais moins maîtrisé côté UX, sécurité et branding,
+- `Django`: bon framework complet, mais plus lourd qu'utile ici,
+- front statique sans backend: insuffisant pour gérer les guest tokens et l'embed sécurisé.
 
-<!-- 1. **📊 Questions par Ministère** (Bar Chart)
-   - Top 10 ministères par volume de questions
-   - Évolution temporelle par ministère
+Pourquoi c'était pertinent pour `vie-publique.sn`:
+- l'intégration visée devait rester non intrusive, publique, compatible mobile et séparée de l'interface d'analyse interne.
 
-2. **⏱️ Délais de Réponse** (KPI Cards + Line Chart)
-   - Délai moyen de réponse
-   - Évolution mensuelle
-   - Comparaison entre ministères
+### Render plutôt qu'AWS ou Kubernetes
 
-3. **🗺️ Carte Géographique** (Map)
-   - Questions par département
-   - Heat map des zones actives
+Choix retenu: `Render`
 
-4. **🏷️ Thématiques Principales** (Pie Chart + Word Cloud)
-   - Classification automatique par ML
-   - Mots-clés fréquents
+Pourquoi:
+- déploiement simple pour plusieurs services Docker,
+- coût réduit,
+- adapté à une démonstration sérieuse sans surcharge DevOps.
 
-5. **👥 Top Députés** (Table + Bar Chart)
-   - Députés les plus actifs
-   - Taux de réponse par député
+Alternatives courantes:
+- `AWS`: plus puissant, mais plus complexe à exploiter pour cette taille de projet,
+- `Kubernetes`: pertinent à grande échelle, trop lourd ici,
+- `Heroku`: comparable, mais Render donne une bonne simplicité sur ce montage multi-services.
 
-6. **📈 Timeline Interactive** (Timeline)
-   - Évolution quotidienne/mensuelle
-   - Filtres par parti, région, thématique -->
+Pourquoi c'était pertinent pour `vie-publique.sn`:
+- l'enjeu était de livrer vite une plateforme consultable, pas d'optimiser une infra cloud avancée.
 
----
+## Intégration à vie-publique.sn
 
-## 🔧 Fonctionnalités
+L'intégration a été pensée comme une intégration externe, propre et peu invasive.
 
-### **✅ Déjà Implémenté**
+Le projet ne modifie pas `vie-publique.sn`. Il s'appuie sur ses publications comme source de données, les restructure dans une base dédiée, puis expose une lecture enrichie dans un dashboard autonome.
 
-- [x] Extraction automatique via API 👉 **[Vie Publique](https://www.vie-publique.sn/assemblee-nationale/questions)**
-- [x] Pipeline ETL asynchrone optimisé
-- [x] Classification ML avec CamemBERT fine-tuné
-- [x] Extraction des entités nommées (ministères, lieux, dates)
-- [-] Analyse de sentiment et score d'urgence
-- [x] Base de données PostgreSQL avec vues optimisées
-- [x] Dashboard Superset avec charts interactifs
-- [x] Interface publique Flask (lecture seule)
-- [x] ETL automatisé via GitHub Actions (cron quotidien)
-- [x] Docker Compose pour dev local
-- [x] Déploiement Render (Infrastructure as Code)
+Ce choix présente trois avantages:
+- pas de dépendance forte au système interne du site source,
+- possibilité d'améliorer l'analyse sans toucher à la plateforme éditoriale,
+- meilleure maîtrise de la qualité des données, de la fréquence de mise à jour et de l'expérience utilisateur.
 
-### **🚧 Roadmap**
+## Structure du Dépôt
 
-- [ ] Alertes temps réel (webhook Discord/Slack)
-- [ ] API REST publique pour accès aux données
-- [ ] Analyse de séries temporelles (prédictions)
-- [ ] Intégration d'autres sources (Sénat, débats)
-- [ ] Authentification SSO (Google/GitHub)
-- [ ] Tests unitaires et d'intégration (pytest)
-- [ ] Monitoring avec Sentry
-- [ ] Cache Redis pour Superset
-
----
-
-## 📁 Structure du Projet
-
-```
+```text
 question-assemblee/
-├── .github/workflows/        # GitHub Actions (CI/CD)
-│   ├── cron_etl.yml         # ETL automatisé quotidien
-│   ├── ci.yml               # Tests automatiques
-│   └── build_and_push.yml   # Build images Docker
-├── src/                     # Code source
-│   ├── extractors/          # Extraction API
-│   ├── transformers/        # Transformation & ML
-│   ├── loaders/             # Chargement DB
-│   ├── models/              # Modèles Pydantic
-│   └── utils/               # Utilitaires
-├── models/                  # Modèles ML
-│   └── camembert_model/     # CamemBERT fine-tuné
-├── Dockerfile.etl           # Image Docker ETL
-├── Dockerfile.superset      # Image Docker Superset
-├── Dockerfile.flask         # Image Docker Flask
-├── docker-compose.yml       # Orchestration locale
-├── render.yaml              # Déploiement Render
-├── db-init.sql              # Schéma PostgreSQL
-├── requirements.txt         # Dépendances Python
-└── README.md                # Ce fichier
+├── dashboard-react/        application publique et backend d'embed
+├── docs/                   documentation de présentation et d'exploitation
+├── scripts/                scripts techniques regroupés par usage
+├── models/                 modèle CamemBERT et artefacts associés
+├── src/                    pipeline ETL et logique métier
+├── db-init.sql             schéma PostgreSQL
+├── docker-compose.yml      stack locale
+├── Dockerfile.*            images de services
+├── render.yaml             déploiement Render
+└── superset_config.py      configuration Superset
 ```
 
-<!-- ---
+## Documentation
 
-## 🤝 Contribution
+- [Index documentation](docs/README.md)
+- [Choix technologiques et alternatives](docs/presentation/technology-choices.md)
+- [Guide de démarrage local](docs/operations/QUICKSTART.md)
+- [Guide de déploiement](docs/operations/DEPLOY.md)
 
-Les contributions sont les bienvenues ! 
+Les scripts techniques qui étaient auparavant visibles à la racine ont été regroupés dans `scripts/`:
+- `scripts/superset/` pour le bootstrap et l'administration Superset,
+- `scripts/ml/` pour la gestion du modèle,
+- `scripts/legacy/` pour les prototypes archivés.
 
-1. Fork le projet
-2. Créer une branche (`git checkout -b feature/amélioration`)
-3. Commit les changements (`git commit -m 'Ajout fonctionnalité X'`)
-4. Push la branche (`git push origin feature/amélioration`)
-5. Ouvrir une Pull Request
+## Démonstration
 
----
+- Dashboard public: [https://questions-assemblee-dashboard.onrender.com](https://questions-assemblee-dashboard.onrender.com)
+- Source exploitée: [https://www.vie-publique.sn/assemblee-nationale/questions](https://www.vie-publique.sn/assemblee-nationale/questions)
 
-## 📝 License
+## Auteur
 
-Ce projet est sous licence MIT. Voir [LICENSE](LICENSE) pour plus de détails. -->
-
----
-
-## 👤 Auteur
-
-**Nando DP**
-- GitHub : [@NandoDP](https://github.com/NandoDP)
-- Portfolio : [À venir]
-
----
-
-## 🙏 Remerciements
-
-- **[Vie Publique](https://www.vie-publique.sn)** - Plateforme citoyenne du sénégal
-<!-- 
----
-
-## 📚 Documentation Complémentaire
-
-- [QUICKSTART.md](QUICKSTART.md) - Démarrage rapide en local
-- [DEPLOY.md](DEPLOY.md) - Guide de déploiement complet
-- [MODEL_MANAGEMENT.md](MODEL_MANAGEMENT.md) - Gestion du modèle ML
-- [models/camembert_model/README.md](models/camembert_model/README.md) - Téléchargement du modèle -->
-
----
-
-**⭐ Si ce projet vous plaît, n'hésitez pas à lui donner une étoile !**
+- GitHub: [@NandoDP](https://github.com/NandoDP)

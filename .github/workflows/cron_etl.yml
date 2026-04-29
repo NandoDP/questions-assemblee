@@ -28,7 +28,7 @@ jobs:
 
       - name: Download CamemBERT model from HuggingFace
         run: |
-          python download_model.py
+          python scripts/ml/download_model.py
 
       - name: Run ETL Pipeline
         env:
